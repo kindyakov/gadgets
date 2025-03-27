@@ -1,0 +1,240 @@
+@use "../../styles/settings/_mixins.scss" as *;
+
+.header {
+  padding: 10px 0;
+  z-index: 20;
+
+  &__inner {}
+
+  &__logo {
+    span {
+      color: $primary-dark;
+      font-weight: 700;
+      font-family: $third-family;
+      @include adaptive-font(34, 20, 1);
+
+      @media (max-width: $md2) {
+        display: none;
+      }
+
+      @media (max-width: $md4) {
+        display: inline;
+      }
+    }
+
+    svg {
+      transition: 0.2s;
+    }
+
+    &:hover {
+      svg {
+        filter: drop-shadow(0px 0px 20px rgba(255, 77, 77, 0.8));
+      }
+    }
+
+
+  }
+
+  &__logo-text {
+    font-weight: 400;
+    line-height: normal;
+    font-size: 14px;
+    color: #263141;
+
+    @media (max-width: $md1) {
+      display: none;
+    }
+
+    @media (max-width: $md4) {
+      display: inline;
+    }
+  }
+
+  &__button-catalog {
+    color: $primary-white;
+    background: $red-light;
+    padding: 16px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 125%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 6px 0 0 6px;
+
+    svg {
+      transition: transform 0.2s;
+      @include svg-color(#fff);
+    }
+
+    &._active,
+    &:hover {
+      svg {
+        transform: rotate(-180deg);
+      }
+    }
+  }
+
+  &__search-button {
+    svg {
+      transition: transform 0.2s;
+    }
+  }
+
+  &__search-input {
+    background: #f2f5f9;
+    transition: background 0.2s;
+
+    &:focus {
+      background: rgba(77, 190, 255, 0.2);
+      // background: rgba(255, 77, 77, 0.1);
+    }
+  }
+
+  &__link {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #f2f5f9;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease-out;
+
+    svg {
+      transition: transform 0.2s, fill 0.2s, stroke 0.2s;
+      z-index: 1;
+    }
+
+    &:hover {
+      background: $red-light;
+      color: #fff;
+
+      svg {
+        @include svg-color(#fff);
+      }
+    }
+  }
+
+  &__catalog {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+
+    &._open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    &_body {
+      position: relative;
+      z-index: 1;
+    }
+
+    &_wrapper {}
+
+    &_content {}
+
+    &_nav {}
+
+    &_title {}
+
+    &_list {
+      border-radius: 15px;
+      border: 1px solid #ECEEEF;
+    }
+
+    &_item {
+      &:last-child {
+        .header__catalog_link {
+          border-bottom: none;
+        }
+      }
+    }
+
+    &_link {
+      position: relative;
+      padding: 15px;
+      border-bottom: 1px solid #ECEEEF;
+      transition: color 0.2s, background-color 0.2s;
+
+      svg {
+        @include svg-color(#8F96A0);
+        transition: rotate 0.2s;
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background: $red-light;
+        height: 50%;
+        width: 3px;
+        border-radius: 0 6px 6px 0;
+        opacity: 0;
+        transition: opacity 0.2s;
+      }
+
+      &:hover {
+        color: $red-light;
+
+        svg {
+          transform: rotate(-90deg);
+        }
+
+        &.dropdown {
+          background-color: #F2F5F9;
+        }
+      }
+
+      &.active {
+        color: $red-light;
+        background-color: #F2F5F9;
+
+        &::after {
+          opacity: 1;
+        }
+
+        svg {
+          transform: rotate(-90deg);
+        }
+      }
+    }
+
+    &_banner {
+      border-radius: 15px;
+    }
+  }
+
+  &__mobile {
+    // &_list {}
+
+    &_link {
+      transition: color 0.2s;
+      color: #7e8794;
+      font-size: 10px;
+
+      svg {
+        @include svg-color(#7e8794);
+        transition: fill 0.2s, stroke 0.2s;
+      }
+
+      &:hover,
+      &.active {
+        color: $red-light;
+
+        svg {
+          @include svg-color($red-light);
+        }
+      }
+    }
+
+  }
+}

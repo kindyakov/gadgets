@@ -1,0 +1,44 @@
+@use "../../styles/settings/_variables.scss" as *;
+
+.footer {
+  &__messages {
+    a {
+      svg {
+        transition: fill 0.2s;
+      }
+
+      &:hover {
+        &.vk-link {
+          svg {
+            fill: #0077FF;
+          }
+        }
+
+        &.tt-link {
+          svg {
+            fill: #22141A;
+          }
+        }
+
+        &.inst-link {
+          svg {
+            fill: #0077FF;
+          }
+        }
+
+        &.tg-link {
+          svg {
+            fill: #18A3E6;
+          }
+        }
+
+        &.youtube-link {
+          svg {
+            fill: #FF0000;
+          }
+        }
+
+      }
+    }
+  }
+}

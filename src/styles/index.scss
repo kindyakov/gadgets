@@ -1,0 +1,9 @@
+@use './settings/_fonts.scss';
+@use './settings/_normalize.scss';
+@use './settings/_variables.scss';
+
+@use './components/_style.scss';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
