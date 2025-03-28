@@ -1,4 +1,5 @@
 import ProductRating from "../ProductRating/ProductRating"
+import { formatDate } from '../../utils/formattedDate';
 
 const FeedbackItem = ({ feedback }) => {
   return (
@@ -6,7 +7,7 @@ const FeedbackItem = ({ feedback }) => {
       <div className="flex justify-between items-start gap-3">
         <div className="">
           <h4 className="text-xl font-semibold">{feedback.user.name} {feedback.user.surname}</h4>
-          <span className="text-sm">{feedback.createdAt}</span>
+          <span className="text-sm">{formatDate(feedback.createdAt)}</span>
         </div>
 
         <ProductRating product={feedback} isOnlyStars={true} />

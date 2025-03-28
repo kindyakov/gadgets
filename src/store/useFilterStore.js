@@ -1,14 +1,12 @@
 import { create } from 'zustand'
 
 const initialSelectedFilters = {
-  colors: [],
   price: {},
   tags: [],
   features: {},
 };
 
 const initialAvailableFilters = {
-  colors: [],
   price: {},
   tags: [],
   features: {},
@@ -24,12 +22,6 @@ export const useFilterStore = create((set) => ({
         price: { min, max },
       },
     })),
-  setSelectedColors: (colors) => set(state => ({
-    selectedFilters: {
-      ...state.selectedFilters,
-      colors
-    },
-  })),
   toggleTag: (tag) =>
     set((state) => {
       const { tags } = state.selectedFilters;

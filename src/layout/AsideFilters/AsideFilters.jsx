@@ -4,28 +4,31 @@ import { useFilterStore } from '../../store/useFilterStore';
 import { useFeaturesTranslateStore } from '../../store/useFeaturesTranslateStore';
 
 const AsideFilters = ({ filters }) => {
-  const { price, colors = [], features = {} } = filters;
-  const { selectedFilters, setSelectedColors, setSelectedFeatures, setSelectedPrice } = useFilterStore()
+  const { price, features = {} } = filters;
+  const { selectedFilters, setSelectedFeatures, setSelectedPrice } = useFilterStore()
   const { featuresTranslate } = useFeaturesTranslateStore()
 
   return (
     <aside className="flex flex-col w-3/12 gap-5">
-      {Object.keys(price).length &&
-        <PriceRange price={price} selectedPrice={selectedFilters.price} onChangePrice={([min, max]) => setSelectedPrice(min, max)} />
+      {Object.keys(price).length > 0
+        ? <PriceRange price={price} selectedPrice={selectedFilters.price} onChangePrice={([min, max]) => setSelectedPrice(min, max)} />
+        : null
       }
 
-      {Object.keys(features).map((feature) => (
-        <CatalogFilterPanel key={features[feature]}
-          title={featuresTranslate[feature] || feature}
-          name={feature}
-          items={features[feature]}
-          selectedValues={selectedFilters.features?.[feature] || []}
-          // isOpen={false}
-          onSelected={({ values }) => {
-            setSelectedFeatures(feature, values)
-          }}
-        />
-      ))}
+      {Object.keys(features).length > 0
+        ? Object.keys(features).map((feature) => (
+          <CatalogFilterPanel key={features[feature]}
+            title={featuresTranslate[feature] || feature}
+            name={feature}
+            items={features[feature]}
+            selectedValues={selectedFilters.features?.[feature] || []}
+            // isOpen={false}
+            onSelected={({ values }) => {
+              setSelectedFeatures(feature, values)
+            }}
+          />
+        ))
+        : null}
     </aside>
   )
 }

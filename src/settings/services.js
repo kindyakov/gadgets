@@ -6,6 +6,10 @@ function searchParamsString(params) {
   return queryString ? `?${queryString}` : ''
 }
 
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const services = {
   getCategories: async (params = {}) => {
     const response = await api.get(`/categories/${searchParamsString(params)}`)
@@ -36,14 +40,16 @@ const services = {
   },
   getFilteredProducts: async (slug, params = {}) => {
     const response = await api.get(`/filters/${slug}${searchParamsString(params)}`)
+    await delay(1500)
     return response.data
   },
   getBrands: async (params = {}) => {
     const response = await api.get(`/brands/${searchParamsString(params)}`)
     return response.data
   },
-  getFeedbacks: async (productId) => {
-    const response = await api.get(`/feedbacks/${productId}`)
+  getFeedbacks: async (params = {}) => {
+    const response = await api.get(`/feedbacks/${searchParamsString(params)}`)
+    await delay(3000)
     return response.data
   }
 }

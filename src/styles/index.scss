@@ -3,6 +3,7 @@
 @use './settings/_variables.scss';
 
 @use './components/_style.scss';
+@use './components/_pagination.scss';
 
 @tailwind base;
 @tailwind components;

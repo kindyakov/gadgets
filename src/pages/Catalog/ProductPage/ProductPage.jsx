@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
 import { useProducts } from "../../../hooks/useProducts";
 import { useBrands } from "../../../hooks/useBrands";
-import { useFeedbacks } from '../../../hooks/useFeedbacks';
 import { formatCurrency } from '../../../utils/formatCurrency';
 import Loader from "../../../components/Loader/Loader";
 
@@ -13,9 +12,7 @@ import ProductExpertAssessment from "../../../components/ProductExpertAssessment
 import ProductActions from "../../../components/ProductActions/ProductActions";
 import ProductAddCart from "../../../components/ProductAddCart/ProductAddCart";
 import ProductVariants from "../../../components/ProductVariants/ProductVariants";
-import FeedbackItem from '../../../components/FeedbackItem/FeedbackItem';
 import { useBreadcrumbStore } from "../../../store/useBreadcrumbStore";
-import { declOfNum } from '../../../utils/declOfNum';
 import ProductFeedback from '../../../components/ProductFeedback/ProductFeedback';
 
 const ProductPage = ({ slug, segments }) => {
@@ -30,8 +27,6 @@ const ProductPage = ({ slug, segments }) => {
     select: (data) => data ? data[0] : {},
     enable: !!data?.brandId
   })
-
-  const { data: feedbacksData } = useFeedbacks(data?.id)
 
   useEffect(() => {
     if (data) {
@@ -105,7 +100,7 @@ const ProductPage = ({ slug, segments }) => {
           </dl>
         </div>
       </div>
-      {feedbacksData && <ProductFeedback feedbacks={feedbacksData.feedbacks} distribution={feedbacksData.distribution} rating={data.rating} />}
+      {data?.id && <ProductFeedback productId={data.id} />}
     </>
   )
 }
