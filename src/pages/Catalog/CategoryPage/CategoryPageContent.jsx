@@ -37,7 +37,6 @@ const CategoryPageContent = ({ slug }) => {
   useEffect(() => {
     if (data?.filters && Object.keys(data.filters)) {
       setAvailableFilters(data.filters)
-      console.log(data.meta);
     }
   }, [data])
 

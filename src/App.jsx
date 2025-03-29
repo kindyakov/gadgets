@@ -12,24 +12,28 @@ import Catalog from './pages/Catalog/Catalog'
 import Favorite from './pages/Favorite/Favorite'
 import Comparison from './pages/Comparison/Comparison'
 import Reviews from './pages/Reviews/Reviews'
+import InitialModals from './InitialModals'
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="*" element={<NotFound />} />
-      <Route path="/about" element={<About />} />
-      <Route path="/search" element={<Search />} />
-      <Route path="/game" element={<Game />} />
-      <Route path="/account" element={<Account />} />
-      <Route path="/feedback" element={<Feedback />} />
-      <Route path="/basket" element={<Basket />} />
-      <Route path="/faq" element={<Faq />} />
-      <Route path="/catalog/*" element={<Catalog />} />
-      <Route path="/reviews/*" element={<Reviews />} />
-      <Route path="/favorites" element={<Favorite />} />
-      <Route path="/comparison" element={<Comparison />} />
-    </Routes>
+    <>
+      <InitialModals />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/search" element={<Search />} />
+        <Route path="/game" element={<Game />} />
+        <Route path="/account" element={<Account />} />
+        <Route path="/feedback" element={<Feedback />} />
+        <Route path="/basket" element={<Basket />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/catalog/*" element={<Catalog />} />
+        <Route path="/reviews/*" element={<Reviews />} />
+        <Route path="/favorites" element={<Favorite />} />
+        <Route path="/comparison" element={<Comparison />} />
+      </Routes>
+    </>
   )
 }
 
