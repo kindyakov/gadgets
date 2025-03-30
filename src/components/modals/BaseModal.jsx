@@ -3,16 +3,16 @@ import Modal from 'react-modal';
 // Для обеспечения доступности обязательно указываем корневой элемент приложения
 Modal.setAppElement('#root');
 
-const BaseModal = ({ isOpen, onRequestClose, title, children, ...props }) => {
+const BaseModal = ({ isOpen, isBtnCLose = true, onRequestClose, title, children, ...props }) => {
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      className='top-2/4 left-2/4 translate-x-1/2 translate-y-1/2 max-w-[500px] w-[95%] p-5 rounded-xl shadow-md'
+      className='max-w-[500px] w-full p-5 rounded-xl shadow-md bg-white relative'
       contentLabel={title || 'Modal'}
       {...props}
     >
-      <button onClick={onRequestClose}>Закрыть</button>
+      {isBtnCLose && <button onClick={onRequestClose} className='absolute top-2 right-2 cursor-pointer text-xl w-7 h-7 transition-colors hover:text-red-light'>✕</button>}
       {children}
     </Modal>
   );

@@ -15,7 +15,7 @@ svg {
 }
 
 .overlay {
-  z-index: 5;
+  z-index: 6;
   position: fixed;
   inset: 0;
   width: 100vw;
@@ -98,6 +98,16 @@ svg {
   &:focus {
     border-color: $red-light;
   }
+
+  &[disabled] {
+    background-color: #f3f3f3;
+    user-select: none;
+    pointer-events: none;
+
+    &::placeholder {
+      color: #cfcfcf;
+    }
+  }
 }
 
 .checkbox-input {
@@ -172,4 +182,14 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .border {
   border: 1px solid #f2f5f9
+}
+
+.ReactModal__Overlay {
+  z-index: 20;
+  background-color: rgba(0, 0, 0, 0.45) !important;
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 10px;
 }

@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast';
+
 import Home from './pages/Home/Home'
 import NotFound from './pages/NotFound/NotFound'
 import About from './pages/About/About'
@@ -12,11 +14,13 @@ import Catalog from './pages/Catalog/Catalog'
 import Favorite from './pages/Favorite/Favorite'
 import Comparison from './pages/Comparison/Comparison'
 import Reviews from './pages/Reviews/Reviews'
+
 import InitialModals from './InitialModals'
 
 function App() {
   return (
     <>
+      <Toaster />
       <InitialModals />
       <Routes>
         <Route path="/" element={<Home />} />

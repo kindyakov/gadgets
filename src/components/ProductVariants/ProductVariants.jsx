@@ -71,10 +71,11 @@ const ProductVariants = ({ variants = [], features = {}, slug = '' }) => {
     // Ищем соответствующий вариант
     const variant = findVariantByAttributes(newAttrs);
     if (variant && variant.slug && variant.slug !== slug) {
-      const segments = location.pathname.split("/");
+      const segments = location.pathname.split("/").filter(segment => segment);
       segments[segments.length - 1] = variant.slug;
+
       // Перенаправляем на страницу выбранного варианта
-      navigate(segments.join("/"));
+      navigate('/' + segments.join("/"));
     }
   };
 

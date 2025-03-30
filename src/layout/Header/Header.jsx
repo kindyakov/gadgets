@@ -1,6 +1,8 @@
+import './Header.scss'
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
-import './Header.scss'
+import { useUserStore } from "../../store/useUserStore"
+import HeaderCatalog from './HeaderCatalog'
 
 import { LogoSvg } from '../../ui/svg/LogoSvg'
 import { TriangleSvg } from '../../ui/svg/TriangleSvg'
@@ -10,13 +12,13 @@ import { ComparisonSvg } from '../../ui/svg/ComparisonSvg'
 import { AccountSvg } from '../../ui/svg/AccountSvg'
 import { CatalogSvg } from '../../ui/svg/CatalogSvg'
 import { HomeSvg } from '../../ui/svg/HomeSvg'
-import HeaderCatalog from './HeaderCatalog'
 
 const Header = () => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const headerRef = useRef(null);
   const [headerHeight, setHeaderHeight] = useState(0);
   const location = useLocation();
+  const { isAuth, favorites, } = useUserStore()
 
   useEffect(() => {
     if (headerRef.current) {
@@ -62,14 +64,23 @@ const Header = () => {
               </form>
             </div>
             <div className='sm:flex hidden items-center gap-3 xl:gap-4 '>
-              <Link to='/favorites' className='header__link p-2 transition-colors flex-shrink-0'>
+              <Link to='/favorites' className='header__link p-2 transition-colors flex-shrink-0 relative'>
                 <FavoriteSvg />
+                {favorites.length > 0
+                  ? <span className='absolute top-0 right-0 text-xs flex items-center justify-center text-center rounded-full text-white w-4 h-4 bg-yellow-light translate-x-1/2 -translate-y-1/2'>{favorites.length}</span>
+                  : null}
               </Link>
               <Link to='/comparison' className='header__link p-2 transition-colors flex-shrink-0'>
                 <ComparisonSvg />
               </Link>
-              <Link to='/account' className='header__link p-2 transition-colors flex-shrink-0'>
-                <AccountSvg />
+              <Link to='/account' className={`header__link p-2 transition-colors flex-shrink-0 relative ${isAuth ? 'bg-red-light' : ''}`}>
+                <AccountSvg color={isAuth ? '#fff' : '#263141'} />
+                <ul
+                  className='absolute right-0 p-3 rounded-md flex flex-col'
+                  style={{ top: 'calc(100% + 10px)' }}
+                >
+                  <li></li>
+                </ul>
               </Link>
             </div>
           </div>

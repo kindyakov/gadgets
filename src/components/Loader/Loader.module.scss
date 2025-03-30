@@ -10,6 +10,8 @@
   border-radius: 50%;
   display: inline-block;
   box-sizing: border-box;
+  user-select: none;
+  transition: 0.3s;
   animation: rotation 2s linear infinite;
 }
 

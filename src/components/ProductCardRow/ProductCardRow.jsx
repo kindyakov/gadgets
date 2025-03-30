@@ -60,7 +60,7 @@ const ProductCardRow = ({ product }) => {
             : ''}
         </ul>
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col min-w-[200px]">
         <div className="w-full flex flex-col gap-1 text-sm text-[#7c7c7c] font-medium items-start">
           <p className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full inline-block"

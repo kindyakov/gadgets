@@ -16,8 +16,9 @@ const loadingStore = useLoadingStore.getState();
 // Обработчик просьб (requests) для добавления токена и отслеживания загрузки
 api.interceptors.request.use(config => {
   const token = Cookies.get('token');
-  // Добавляем Authorization header с токеном, если он существует
-  // config.headers.common.Authorization = token ? `Bearer ${token}` : '';
+  if (token) {
+    config.headers.Authorization = token;
+  }
 
   loadingStore.incrementLoading();
   return config;
