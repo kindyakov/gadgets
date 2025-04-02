@@ -2,6 +2,8 @@ import './Header.scss'
 import { Link, useLocation } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { useUserStore } from "../../store/useUserStore"
+import { useModalStore } from "../../store/useModalStore"
+
 import HeaderCatalog from './HeaderCatalog'
 
 import { LogoSvg } from '../../ui/svg/LogoSvg'
@@ -19,6 +21,7 @@ const Header = () => {
   const [headerHeight, setHeaderHeight] = useState(0);
   const location = useLocation();
   const { isAuth, favorites, } = useUserStore()
+  const { openModal } = useModalStore()
 
   useEffect(() => {
     if (headerRef.current) {
@@ -30,12 +33,19 @@ const Header = () => {
     setIsCatalogOpen(false)
   }, [location])
 
+  const handleClickAccount = (e) => {
+    if (!isAuth) {
+      e.preventDefault()
+      openModal('modalAuth')
+    }
+  }
+
   const mobileMenu = [
     { to: '/', icon: <HomeSvg />, name: 'Главная' },
     { to: '/catalog', icon: <CatalogSvg />, name: 'Каталог' },
-    { to: '/comparison', icon: <ComparisonSvg />, name: 'Сравнение' },
-    { to: '/favorite', icon: <FavoriteSvg />, name: 'Избранное' },
-    { to: '/account', icon: <AccountSvg />, name: 'Аккаунт' },
+    { to: '/account/comparison', icon: <ComparisonSvg />, name: 'Сравнение' },
+    { to: '/account/favorite', icon: <FavoriteSvg />, name: 'Избранное' },
+    { to: '/account', icon: <AccountSvg />, name: 'Аккаунт', onClick: handleClickAccount },
   ]
 
   return (
@@ -64,22 +74,42 @@ const Header = () => {
               </form>
             </div>
             <div className='sm:flex hidden items-center gap-3 xl:gap-4 '>
-              <Link to='/favorites' className='header__link p-2 transition-colors flex-shrink-0 relative'>
+              <Link to='/account/favorites' className='header__link p-2 transition-colors flex-shrink-0 relative'>
                 <FavoriteSvg />
                 {favorites.length > 0
                   ? <span className='absolute top-0 right-0 text-xs flex items-center justify-center text-center rounded-full text-white w-4 h-4 bg-yellow-light translate-x-1/2 -translate-y-1/2'>{favorites.length}</span>
                   : null}
               </Link>
-              <Link to='/comparison' className='header__link p-2 transition-colors flex-shrink-0'>
+              <Link to='/account/comparison' className='header__link p-2 transition-colors flex-shrink-0'>
                 <ComparisonSvg />
               </Link>
-              <Link to='/account' className={`header__link p-2 transition-colors flex-shrink-0 relative ${isAuth ? 'bg-red-light' : ''}`}>
+              <Link to='/account' className={`header__link p-2 transition-colors flex-shrink-0 relative ${isAuth ? 'bg-red-light' : ''}`} onClick={handleClickAccount}>
                 <AccountSvg color={isAuth ? '#fff' : '#263141'} />
                 <ul
-                  className='absolute right-0 p-3 rounded-md flex flex-col'
+                  className='absolute right-0 p-3 rounded-md flex flex-col text-right'
                   style={{ top: 'calc(100% + 10px)' }}
                 >
-                  <li></li>
+                  <li>
+                    <Link to={'/account'}>Личный кабинет</Link>
+                  </li>
+                  <li>
+                    <Link to={'/account/profile'}>Личный данные</Link>
+                  </li>
+                  <li>
+                    <Link to={'/account/basket'}>Корзина</Link>
+                  </li>
+                  <li>
+                    <Link to={'/account/favorites'}>Избранные</Link>
+                  </li>
+                  <li>
+                    <Link to={'/account/orders'}>Заказы</Link>
+                  </li>
+                  <li>
+                    <Link to={'/account/settings'}>Настройки</Link>
+                  </li>
+                  <li>
+                    <button>Выйти</button>
+                  </li>
                 </ul>
               </Link>
             </div>
@@ -96,14 +126,16 @@ const Header = () => {
           {mobileMenu?.length && mobileMenu.map((item, index) => (
             <li key={index + item.to} className='flex-auto'>
               <Link to={item.to}
-                className={`header__mobile_link font-normal p-2 flex flex-col justify-between h-full gap-1 items-center ${location.pathname === item.to ? 'active' : ''}`}>
+                className={`header__mobile_link font-normal p-2 flex flex-col justify-between h-full gap-1 items-center ${location.pathname === item.to ? 'active' : ''}`}
+                onClick={item.onClick}
+              >
                 {item.icon}
                 <span>{item.name}</span>
               </Link>
             </li>
           ))}
         </ul>
-      </nav>
+      </nav >
     </>
   )
 }

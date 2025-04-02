@@ -6,7 +6,7 @@ export const useBreadcrumbStore = create((set) => ({
     about: 'О нас',
     contact: 'Контакты',
     reviews: 'Обзоры',
-    favorites: 'Фавориты',
+    favorites: 'Избранные',
     comparison: 'Сравнить',
     account: 'Аккаунт',
   },

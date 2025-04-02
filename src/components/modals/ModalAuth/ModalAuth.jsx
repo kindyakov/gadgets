@@ -30,7 +30,10 @@ const ModalAuth = () => {
   }, [modal?.isOpen, setFormName]);
 
   return (
-    <BaseModal title='Авторизация' isOpen={modal?.isOpen} onRequestClose={() => closeModal('modalAuth')}>
+    <BaseModal title='Авторизация'
+      isOpen={modal?.isOpen}
+      onRequestClose={() => closeModal('modalAuth')}
+    >
       <div className="flex flex-col h-full w-full">
         <h3 className="text-center text-xl font-medium">Личный кабинет</h3>
         <FormComponent setFormName={setFormName} closeModal={() => closeModal('modalAuth')} />

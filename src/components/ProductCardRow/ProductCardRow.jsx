@@ -20,9 +20,11 @@ const ProductCardRow = ({ product }) => {
     pre_order: '#FFDF39'
   }
 
+  const path = '/catalog' + product.path;
+
   return (
     <div className="flex gap-4 justify-between p-5 rounded-xl border-solid border-[1px] border-[#ebf0f7]">
-      <Link to={`/catalog/${product.categorySlug}/${product.subCategorySlug}/${product.slug}`}
+      <Link to={path}
         className=" overflow-hidden rounded-xl border-solid border-[1px] border-[#ebf0f7] w-[240px] flex-shrink-0 group">
         <Swiper
           className="max-full h-full"
@@ -47,7 +49,7 @@ const ProductCardRow = ({ product }) => {
           </div>
           <ProductActions product={product} />
         </div>
-        <h3 className="text-2xl font-semibold text-[#0f1113] mt-2">{product.title}</h3>
+        <Link to={path} className="text-2xl font-semibold text-[#0f1113] mt-2">{product.title}</Link>
         <ProductRating product={product} />
         <ul className="grid grid-cols-2 gap-x-2 gap-y-1  mt-2">
           {product.specifications?.length
@@ -55,6 +57,7 @@ const ProductCardRow = ({ product }) => {
               <li key={spec.name + product.id}>
                 <b className="font-semibold text-[#7c7c7c] text-sm">{spec.name}:</b>
                 <p className="inline ml-2 text-[14px]">{spec.value}</p>
+
               </li>
             ))
             : ''}
