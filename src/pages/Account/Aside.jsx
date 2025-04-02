@@ -1,29 +1,30 @@
-import { Link } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
+import accountRoutes from './account.routes.js';
+import { useUserStore } from "../../store/useUserStore.js";
+import { handleLogout } from "../../helpers/logoutHelpers.js";
 
-import { FavoriteSvg } from "../../ui/svg/FavoriteSvg"
-import { ComparisonSvg } from "../../ui/svg/ComparisonSvg"
-import { BasketSvg } from "../../ui/svg/BasketSvg"
+const Aside = ({ slug }) => {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const { logout } = useUserStore()
 
-const maps = [
-  { path: "/account", component: '', title: "Личный кабинет" },
-  { path: "/account/profile", component: '', title: "Личные данные" },
-  { path: "/account/basket", component: BasketSvg },
-  { path: "/account/favorites", component: FavoriteSvg },
-  { path: "/account/orders", component: ComparisonSvg },
-  { path: "/account/settings", component: ComparisonSvg },
-]
+  const handleClickTab = (e, route) => {
+    if (route.path === '/') {
+      e.preventDefault()
+      handleLogout(logout, navigate)
+    }
+  }
 
-const Aside = () => {
   return (
-    <aside className="w-1/4 flex flex-col gap-4">
-      <Link to="/account">Личный кабинет</Link>
-      <Link to="/account/profile">Личный данные</Link>
-      <Link to="/account/basket">Корзина</Link>
-      <Link to="/account/favorites">Избранные</Link>
-      <Link to="/account/orders">Заказы</Link>
-      <Link to="/account/comparison">Сравнение</Link>
-      <Link to="/account/comparison">Настройки</Link>
-      <BasketSvg />
+    <aside className="w-1/4 flex flex-col gap-2">
+      {accountRoutes.map((route, index) => (
+        <Link key={index} to={route.path}
+          className={`flex items-center gap-4 p-3 rounded-md transition-colors border-[1px] border-solid border-[#dbdbdb]  ${route.path === location.pathname ? 'bg-red-light text-white' : 'hover:border-[#FF4D4D] hover:text-red-light'}`}
+          onClick={(e) => handleClickTab(e, route)}>
+          <route.icon style={{ width: '30px', height: '30px' }} />
+          <span>{route.title}</span>
+        </Link>
+      ))}
     </aside>
   )
 }

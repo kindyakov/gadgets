@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useUserStore } from "../../store/useUserStore"
 
@@ -7,6 +7,7 @@ import Favorite from './Favorite/Favorite'
 import Comparison from './Comparison/Comparison'
 import Basket from './Basket/Basket'
 import Aside from "./Aside"
+
 const Account = () => {
   const { "*": slug } = useParams()
   const navigate = useNavigate()
@@ -23,14 +24,15 @@ const Account = () => {
   useEffect(() => {
     if (!isAuth) {
       navigate('/')
+      return
     }
   }, [isAuth])
 
   return (
     <Page>
-      <div className="flex gap-5 mt-5">
-        <Aside />
-        <div className="w-3/4">
+      <div className="flex gap-2 mt-5">
+        <Aside slug={slug} />
+        <div className="w-3/4 rounded-md border-[1px] border-solid border-[#dbdbdb]">
           {PageComponent
             ? <PageComponent />
             : "Личный кабинет"}

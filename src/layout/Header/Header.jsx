@@ -1,8 +1,9 @@
 import './Header.scss'
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { useUserStore } from "../../store/useUserStore"
 import { useModalStore } from "../../store/useModalStore"
+import { handleLogout } from "../../helpers/logoutHelpers.js";
 
 import HeaderCatalog from './HeaderCatalog'
 
@@ -14,13 +15,15 @@ import { ComparisonSvg } from '../../ui/svg/ComparisonSvg'
 import { AccountSvg } from '../../ui/svg/AccountSvg'
 import { CatalogSvg } from '../../ui/svg/CatalogSvg'
 import { HomeSvg } from '../../ui/svg/HomeSvg'
+import accountRoutes from '../../pages/Account/account.routes.js';
 
 const Header = () => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
   const headerRef = useRef(null);
   const [headerHeight, setHeaderHeight] = useState(0);
   const location = useLocation();
-  const { isAuth, favorites, } = useUserStore()
+  const navigate = useNavigate()
+  const { isAuth, favorites, logout } = useUserStore()
   const { openModal } = useModalStore()
 
   useEffect(() => {
@@ -83,35 +86,36 @@ const Header = () => {
               <Link to='/account/comparison' className='header__link p-2 transition-colors flex-shrink-0'>
                 <ComparisonSvg />
               </Link>
-              <Link to='/account' className={`header__link p-2 transition-colors flex-shrink-0 relative ${isAuth ? 'bg-red-light' : ''}`} onClick={handleClickAccount}>
-                <AccountSvg color={isAuth ? '#fff' : '#263141'} />
-                <ul
-                  className='absolute right-0 p-3 rounded-md flex flex-col text-right'
-                  style={{ top: 'calc(100% + 10px)' }}
-                >
-                  <li>
-                    <Link to={'/account'}>Личный кабинет</Link>
-                  </li>
-                  <li>
-                    <Link to={'/account/profile'}>Личный данные</Link>
-                  </li>
-                  <li>
-                    <Link to={'/account/basket'}>Корзина</Link>
-                  </li>
-                  <li>
-                    <Link to={'/account/favorites'}>Избранные</Link>
-                  </li>
-                  <li>
-                    <Link to={'/account/orders'}>Заказы</Link>
-                  </li>
-                  <li>
-                    <Link to={'/account/settings'}>Настройки</Link>
-                  </li>
-                  <li>
-                    <button>Выйти</button>
-                  </li>
-                </ul>
-              </Link>
+              <div className="relative group">
+                <Link to='/account' className={`header__link p-2 transition-colors flex-shrink-0 ${isAuth ? 'bg-red-light' : ''}`} onClick={handleClickAccount}>
+                  <AccountSvg color={isAuth ? '#fff' : '#263141'} />
+                </Link>
+                {isAuth
+                  ? (
+                    <ul
+                      className='absolute transition-opacity right-0 p-3 rounded-md flex flex-col bg-[#FFEDED] shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible'
+                      style={{ top: 'calc(100% + 12px)' }}
+                    >
+                      <span className='absolute bottom-full right-0 left-0 w-full h-3'></span>
+                      {accountRoutes.map(route => (
+                        <li key={route.path}>
+                          <Link to={route.path}
+                            className='transition-colors flex items-center gap-2 px-2 py-1 text-nowrap hover:text-red-light'
+                            onClick={e => {
+                              if (route.path === '/') {
+                                e.preventDefault()
+                                handleLogout(logout, navigate)
+                              }
+                            }}>
+                            {<route.icon style={{ width: '20px', height: '20px' }} />}
+                            <span>{route.title}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )
+                  : ''}
+              </div>
             </div>
           </div>
         </div>
