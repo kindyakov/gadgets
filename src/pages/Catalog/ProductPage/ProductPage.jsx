@@ -10,7 +10,7 @@ import ProductSlider from '../../../components/ProductSlider/ProductSlider';
 import ProductRating from "../../../components/ProductRating/ProductRating";
 import ProductExpertAssessment from "../../../components/ProductExpertAssessment/ProductExpertAssessment";
 import ProductActions from "../../../components/ProductActions/ProductActions";
-import ProductAddCart from "../../../components/ProductAddCart/ProductAddCart";
+import ProductAddBasket from "../../../components/ProductAddBasket/ProductAddBasket";
 import ProductVariants from "../../../components/ProductVariants/ProductVariants";
 import { useBreadcrumbStore } from "../../../store/useBreadcrumbStore";
 import ProductFeedback from '../../../components/ProductFeedback/ProductFeedback';
@@ -73,7 +73,7 @@ const ProductPage = ({ slug, segments }) => {
             <span className="line-through text-[#7c7c7c] text-xl">{formatCurrency(data.oldPrice)}</span>
           </div>
 
-          <ProductAddCart product={data} className='w-full text-xl' />
+          <ProductAddBasket product={data} className='w-full text-xl' />
         </div>
 
       </div>

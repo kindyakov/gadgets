@@ -60,8 +60,13 @@ const services = {
     await delay(2000)
     return response.data
   },
+  getBasket: async () => {
+    const response = await api.get('/basket')
+    await delay(1500)
+    return response.data
+  },
   // post Добавление в корзину
-  addWithBasket: async (productId, data = {}) => {
+  addInBasket: async (productId, data = {}) => {
     const response = await api.post(`/basket/${productId}`, data)
     await delay(1500)
     return response.data
@@ -69,6 +74,16 @@ const services = {
   // delete из корзины
   deleteFromBasket: async (productId) => {
     const response = await api.delete(`/basket/${productId}`)
+    await delay(1500)
+    return response.data
+  },
+  getFavorites: async () => {
+    const response = await api.get('/favorites')
+    await delay(1500)
+    return response.data
+  },
+  toggleFavorite: async (productId) => {
+    const response = await api.put(`/favorites/${productId}`,)
     await delay(1500)
     return response.data
   },

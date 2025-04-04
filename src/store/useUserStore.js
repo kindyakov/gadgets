@@ -1,12 +1,7 @@
 import { create } from "zustand";
 import { checkAuth } from "../helpers/authHelpers";
-import { STORAGE_KEYS } from "../constants/storageKeys";
 
 const initialAuth = checkAuth();
-
-function updateLocalStorage(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
-}
 
 export const useUserStore = create((set, get) => ({
   isAuth: initialAuth.isAuth,
@@ -20,26 +15,34 @@ export const useUserStore = create((set, get) => ({
     favorites
   }),
   logout: () => set({
-    isAuth: false, user: {},
+    isAuth: false,
+    user: {},
     basket: [],
     favorites: [],
   }),
   checkProductInBasket: (productId) => get().basket.find(product => product.id === productId),
+  checkProductInFavorites: (productId) => get().favorites.find(product => product.id === productId),
   addToBasket: (product) => set(state => {
-    const updatedBasket = [...state.basket, product];
-    updateLocalStorage(STORAGE_KEYS.BASKET, updatedBasket)
+    const index = state.basket.findIndex(item => item.id === product.id);
+    let updatedBasket = [...state.basket]
+
+    if (index !== -1) {
+      updatedBasket[index] = product;
+    } else {
+      updatedBasket.push(product)
+    }
     return { basket: updatedBasket };
   }),
+  updatedBasket: (basket) => set({ basket }),
   removeFromBasket: (productId) => set(state => {
     const updatedBasket = state.basket.filter(item => item.id !== productId);
-    updateLocalStorage(STORAGE_KEYS.BASKET, updatedBasket)
     return { basket: updatedBasket };
   }),
-  toggleFavorite: (productId) => set(state => {
-    const updatedFavorites = state.favorites.includes(productId)
-      ? state.favorites.filter(id => id !== productId)
-      : [...state.favorites, productId];
-    updateLocalStorage(STORAGE_KEYS.FAVORITES, updatedFavorites)
+  toggleFavorite: (product) => set(state => {
+    const updatedFavorites = state.favorites.find(_product => _product.id === product.id)
+      ? state.favorites.filter(_product => _product.id !== product.id)
+      : [...state.favorites, product];
     return { favorites: updatedFavorites };
-  })
+  }),
+  updatedFavorites: (favorites) => set({ favorites }),
 }));

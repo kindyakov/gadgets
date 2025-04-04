@@ -32,7 +32,7 @@ const Account = () => {
     <Page>
       <div className="flex gap-2 mt-5">
         <Aside slug={slug} />
-        <div className="w-3/4 rounded-md border-[1px] border-solid border-[#dbdbdb]">
+        <div className="min-w-4/5 flex-auto rounded-md border-[1px] border-solid border-[#dbdbdb]">
           {PageComponent
             ? <PageComponent />
             : "Личный кабинет"}

@@ -2,16 +2,11 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 import { Link } from "react-router-dom"
 import { formatCurrency } from '../../utils/formatCurrency';
-import Loader from "../Loader/Loader";
-
-import { FavoriteSvg } from "../../ui/svg/FavoriteSvg";
-import { ComparisonSvg } from '../../ui/svg/ComparisonSvg';
-import { TriangleSvg } from '../../ui/svg/TriangleSvg';
 
 import ProductRating from '../ProductRating/ProductRating';
 import ProductExpertAssessment from '../ProductExpertAssessment/ProductExpertAssessment';
 import ProductActions from '../ProductActions/ProductActions';
-import ProductAddCart from '../ProductAddCart/ProductAddCart';
+import ProductAddBasket from '../ProductAddBasket/ProductAddBasket';
 
 const ProductCardRow = ({ product }) => {
   const statusColor = {
@@ -57,7 +52,6 @@ const ProductCardRow = ({ product }) => {
               <li key={spec.name + product.id}>
                 <b className="font-semibold text-[#7c7c7c] text-sm">{spec.name}:</b>
                 <p className="inline ml-2 text-[14px]">{spec.value}</p>
-
               </li>
             ))
             : ''}
@@ -80,9 +74,9 @@ const ProductCardRow = ({ product }) => {
           <span className="line-through text-[#7c7c7c] text-xs">{formatCurrency(product.oldPrice)}</span>
         </div>
 
-        <ProductAddCart product={product} />
+        <ProductAddBasket product={product} />
       </div>
-    </div >
+    </div>
   )
 }
 

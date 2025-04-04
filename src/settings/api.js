@@ -1,8 +1,9 @@
 import axios from "axios";
 import Cookies from 'js-cookie'
 import { useLoadingStore } from "../store/useLoadingStore";
+
 // Основная URL для всех запросов к серверу
-const baseURL = 'http://localhost:8888';
+export const baseURL = 'http://localhost:8888';
 
 const api = axios.create({
   baseURL,

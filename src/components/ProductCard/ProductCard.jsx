@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom"
 import { formatCurrency } from '../../utils/formatCurrency';
-import { FavoriteSvg } from "../../ui/svg/FavoriteSvg";
-import { ComparisonSvg } from '../../ui/svg/ComparisonSvg';
 import { TriangleSvg } from '../../ui/svg/TriangleSvg';
+import ProductActions from '../ProductActions/ProductActions';
 
 const ProductCard = ({ product }) => {
   return (
-    <div className="flex flex-col lg:gap-5 gap-3 bg-[#f6f7fa] p-5 rounded-xl border-[#f2f5f9] border-solid border-[1px] group">
+    <div className="flex flex-col lg:gap-5 gap-3 bg-[#f6f7fa] p-5 rounded-xl border-[#f2f5f9] border-solid border-[1px] group h-fit">
       <Link to={`/${product?.slug}`} className="w-full flex items-center justify-center overflow-hidden lg:h-40 h-32">
         <img src={`${product?.images[0]}`} alt={product?.title} className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105" />
       </Link>
@@ -37,16 +36,8 @@ const ProductCard = ({ product }) => {
             <b>{formatCurrency(product?.price)}</b>
           </div>
 
-          <div className="flex gap-2">
-            <button className='bg-[#fdfdfd] rounded-[50%] border-[#e2f1ff] border-solid border-[1px] w-[50px] h-[50px] flex items-center justify-center hover:text-red-light flex-shrink-0'>
-              <FavoriteSvg className="transition-all" />
-            </button>
-            <button className='bg-[#fdfdfd] rounded-[50%] w-[50px] border-[#e2f1ff] border-solid border-[1px] h-[50px] flex items-center justify-center hover:text-red-light flex-shrink-0'>
-              <ComparisonSvg className="transition-all stroke" />
-            </button>
-          </div>
+          <ProductActions product={product} />
         </div>
-
       </div>
     </div>
   )

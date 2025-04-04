@@ -8,7 +8,7 @@ import RecPassForm from "./RecPassForm"
 
 import { YandexSvg } from "../../../ui/svg/YandexSvg"
 import { LogoVkSvg } from "../../../ui/svg/LogoVkSvg"
-
+import { baseURL } from "../../../settings/api"
 const ModalAuth = () => {
   const [formName, setFormName] = useState('auth')
   const { closeModal, getModal } = useModalStore()
@@ -41,11 +41,11 @@ const ModalAuth = () => {
         <div className="flex flex-col items-center gap-2 mt-3">
           <p className="text-base text-[#656666]">Войти с помощью</p>
           <div className="flex flex-wrap gap-2">
-            <a href=""
+            <a href={`${baseURL}/auth/yandex`}
               className="w-9 h-9 rounded-full flex items-center justify-center p-1 duration-300 transition-colors hover:bg-[#E92100]">
               <YandexSvg />
             </a>
-            <a href=""
+            <a href={`${baseURL}/auth/vk`}
               className="w-9 h-9 rounded-full flex items-center justify-center p-1 duration-300 transition-colors hover:bg-[#0077FF]">
               <LogoVkSvg className='w-full h-full' />
             </a>
