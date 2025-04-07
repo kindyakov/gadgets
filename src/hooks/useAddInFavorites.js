@@ -12,7 +12,6 @@ export function useAddInFavorites() {
     onSuccess: (data, product) => {
       if (data && data.status === 'success') {
         toggleFavorite(product)
-        invalidateQueries(['favorites'])
       }
     },
     onError: (error) => console.error('Ошибка при обновлении избранных товаров:', error),

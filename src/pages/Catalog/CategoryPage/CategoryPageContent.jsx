@@ -42,7 +42,7 @@ const CategoryPageContent = ({ slug }) => {
 
   return (
     <>
-      <div className={`fixed w-full h-full inset-0 flex items-center justify-center bg-[#6d6d6d49] transition-opacity ${isLoading ? '' : 'opacity-0 invisible'}`}>
+      <div className={`fixed w-full h-full inset-0 flex items-center justify-center bg-[#6d6d6d49] transition-opacity z-10 ${isLoading ? '' : 'opacity-0 invisible'}`}>
         <Loader width={80} height={80} color="#EB4848" borderWidth="8px" />
       </div>
       <CategoryTags tags={availableFilters.tags} />
@@ -54,8 +54,7 @@ const CategoryPageContent = ({ slug }) => {
               ? data.products.map(product => <ProductCardRow key={product.id} product={product} />)
               : ''}
           </div>
-
-          <ReactPaginate
+          {data?.meta?.totalPages > 1 ? <ReactPaginate
             breakLabel="..."
             nextLabel="Вперед"
             onPageChange={({ selected }) => setPage(selected + 1)}
@@ -64,7 +63,7 @@ const CategoryPageContent = ({ slug }) => {
             previousLabel="Назад"
             containerClassName="pagination"
             activeClassName="active"
-          />
+          /> : ''}
         </div>
       </div>
     </>

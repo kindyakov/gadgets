@@ -12,7 +12,14 @@ import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import 'swiper/css/thumbs';
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			refetchOnWindowFocus: false, // для отключения перезагрузки на фокусе окна
+			staleTime: 1000 * 60 * 5,
+		},
+	}
+})
 
 ReactDOM.createRoot(document.getElementById('root')).render(
 	<React.StrictMode>

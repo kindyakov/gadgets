@@ -20,14 +20,14 @@ const Aside = ({ slug }) => {
   const countSpan = {
     '/account/basket': () => {
       return basket.length ? (
-        <span className="absolute top-0 right-0 text-xs flex items-center justify-center text-center rounded-full text-white w-4 h-4 bg-yellow-light translate-x-1/2 -translate-y-1/2">
+        <span className={`transition-all flex items-center justify-center text-center rounded-full flex-shrink-0 bg-yellow-light text-white ${isOpen ? 'text-base w-6 h-6' : 'absolute top-0 right-0 text-xs w-4 h-4 translate-x-1/2 -translate-y-1/2'}`}>
           {basket.length}
         </span>
       ) : ''
     },
     '/account/favorites': () => {
       return favorites.length ? (
-        <span className="absolute top-0 right-0 text-xs flex items-center justify-center text-center rounded-full text-white w-4 h-4 bg-yellow-light translate-x-1/2 -translate-y-1/2">
+        <span className={`transition-all flex items-center justify-center text-center rounded-full flex-shrink-0 bg-yellow-light text-white ${isOpen ? 'text-base w-6 h-6' : 'absolute top-0 right-0 text-xs w-4 h-4 translate-x-1/2 -translate-y-1/2'}`}>
           {favorites.length}
         </span>
       ) : ''
@@ -38,7 +38,7 @@ const Aside = ({ slug }) => {
     <aside className={`${isOpen ? 'w-1/5' : 'w-14'}  transition-all flex flex-col gap-2 flex-shrink-0`}>
       {accountRoutes.map((route, index) => (
         <Link key={index} to={route.path}
-          className={`p-3 rounded-md transition-colors border-[1px] border-solid border-[#dbdbdb] relative text-nowrap  
+          className={`p-3 rounded-md transition-colors border-[1px] border-solid border-[#dbdbdb] relative text-nowrap flex items-center justify-between
             ${route.path === location.pathname ? 'bg-red-light text-white' : 'hover:border-[#FF4D4D] hover:text-red-light'}`}
           onClick={(e) => handleClickTab(e, route)}>
           <div className="overflow-hidden relative w-full h-full flex items-center gap-4">

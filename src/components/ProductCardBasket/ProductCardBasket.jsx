@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { formatCurrency } from '../../utils/formatCurrency';
 import { useAddInBasket } from '../../hooks/useAddInBasket';
 
+import ProductImageSlider from '../ProductImageSlider/ProductImageSlider';
 import ProductRating from '../ProductRating/ProductRating';
 import ProductExpertAssessment from '../ProductExpertAssessment/ProductExpertAssessment';
 import ProductActions from '../ProductActions/ProductActions';
@@ -27,20 +28,20 @@ const ProductCardBasket = ({ product }) => {
   const { mutate, isPending } = useAddInBasket();
 
   // Создаём дебаунс-версию функции mutate
-  const debouncedMutate = useRef(debounce((prod) => mutate(prod), 600)).current;
+  const debouncedMutate = useRef(debounce((prod) => mutate(prod), 300)).current;
 
   const handleMinusClick = () => {
     if (quantity > 1) {
-      product.quantity -= 1;
-      setQuantity(product.quantity);
-      debouncedMutate(product);
+      const newProduct = { ...product, quantity: quantity - 1 };
+      setQuantity(newProduct.quantity);
+      debouncedMutate(newProduct);
     }
   };
 
   const handlePlusClick = () => {
-    product.quantity += 1;
-    setQuantity(product.quantity);
-    debouncedMutate(product);
+    const newProduct = { ...product, quantity: quantity + 1 };
+    setQuantity(newProduct.quantity);
+    debouncedMutate(newProduct);
   };
 
   const statusColor = {
@@ -53,22 +54,7 @@ const ProductCardBasket = ({ product }) => {
 
   return (
     <div className='w-full flex gap-4 justify-between p-4 rounded-xl border-solid border-[1px] border-[#ebf0f7]'>
-      <Link to={path}
-        className="overflow-hidden rounded-xl border-solid border-[1px] border-[#ebf0f7] w-[200px] flex-shrink-0 group">
-        <Swiper
-          className="max-full h-full"
-          modules={[Pagination]}
-          pagination={{ clickable: true }}
-          spaceBetween={10}
-          slidesPerView={1}
-        >
-          {product.images.length && product.images.map(img => (
-            <SwiperSlide key={img} className="my-auto flex items-center justify-center p-2">
-              <img src={img} alt={product.title} width={240} height={240} className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform" loading="lazy" />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </Link>
+      <ProductImageSlider product={product} path={path} />
       <div className="flex-auto">
         <div className="flex items-center gap-x-2 gap-y-1 flex-wrap">
           {product.tags.length
@@ -103,7 +89,7 @@ const ProductCardBasket = ({ product }) => {
             <LuPlus />
           </button>
         </div>
-        <b className='text-xl font-semibold text-nowrap mt-auto'>{formatCurrency(product.price)}</b>
+        <b className='text-xl font-semibold text-nowrap mt-auto'>{formatCurrency(product.totalPrice)}</b>
       </div>
     </div>
   );

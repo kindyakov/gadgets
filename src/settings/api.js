@@ -14,6 +14,8 @@ const api = axios.create({
 
 const loadingStore = useLoadingStore.getState();
 
+api.defaults.withCredentials = true; // Устанавливаем куки для передачи токена
+
 // Обработчик просьб (requests) для добавления токена и отслеживания загрузки
 api.interceptors.request.use(config => {
   const token = Cookies.get('token');

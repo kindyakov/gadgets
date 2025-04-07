@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-export const handleAuthSuccess = ({ token, user, basket, favorites }, login) => {
+export const handleAuthSuccess = ({ token, user = {}, basket = [], favorites = [] }, login) => {
   if (!token) return;
   Cookies.set('token', `Bearer ${token}`, { expires: 1 });
   login({ user, basket, favorites });

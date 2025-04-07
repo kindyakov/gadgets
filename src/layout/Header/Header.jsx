@@ -77,17 +77,26 @@ const Header = () => {
               </form>
             </div>
             <div className='sm:flex hidden items-center gap-3 xl:gap-4 '>
-              <Link to='/account/favorites' className='header__link p-2 transition-colors flex-shrink-0 relative'>
+              <Link
+                to='/account/favorites'
+                className='header__link p-2 transition-colors flex-shrink-0 relative'
+                onClick={handleClickAccount}>
                 <FavoriteSvg />
                 {favorites.length > 0
                   ? <span className='absolute top-0 right-0 text-xs flex items-center justify-center text-center rounded-full text-white w-4 h-4 bg-yellow-light translate-x-1/2 -translate-y-1/2'>{favorites.length}</span>
                   : null}
               </Link>
-              <Link to='/account/comparison' className='header__link p-2 transition-colors flex-shrink-0'>
+              <Link
+                to='/account/comparison'
+                className='header__link p-2 transition-colors flex-shrink-0'
+                onClick={handleClickAccount}>
                 <ComparisonSvg />
               </Link>
               <div className="relative group">
-                <Link to='/account' className={`header__link p-2 transition-colors flex-shrink-0 ${isAuth ? 'bg-red-light' : ''}`} onClick={handleClickAccount}>
+                <Link
+                  to='/account'
+                  className={`header__link p-2 transition-colors flex-shrink-0 ${isAuth ? 'bg-red-light' : ''}`}
+                  onClick={handleClickAccount}>
                   <AccountSvg color={isAuth ? '#fff' : '#263141'} />
                 </Link>
                 {isAuth

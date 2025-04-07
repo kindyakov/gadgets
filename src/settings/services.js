@@ -50,7 +50,7 @@ const services = {
   },
   // post Авторизация
   auth: async (data) => {
-    const response = await api.post('/auth', data)
+    const response = await api.post('/auth/local', data)
     await delay(2000)
     return response.data
   },
@@ -87,6 +87,11 @@ const services = {
     await delay(1500)
     return response.data
   },
+  getProfile: async () => {
+    const response = await api.get('/profile')
+    await delay(1500)
+    return response.data
+  }
 }
 
 export default services
