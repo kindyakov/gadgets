@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useLocation } from "react-router-dom"
 import BaseModal from "../BaseModal"
 import { useModalStore } from "../../../store/useModalStore"
 
@@ -9,11 +10,14 @@ import RecPassForm from "./RecPassForm"
 import { YandexSvg } from "../../../ui/svg/YandexSvg"
 import { LogoVkSvg } from "../../../ui/svg/LogoVkSvg"
 import { baseURL } from "../../../settings/api"
+
 const ModalAuth = () => {
+  const location = useLocation()
   const [formName, setFormName] = useState('auth')
   const { closeModal, getModal } = useModalStore()
 
   const modal = getModal('modalAuth')
+  const onSuccess = modal?.options?.onSuccess;
 
   const forms = {
     auth: (props) => <AuthForm {...props} />,
@@ -29,6 +33,10 @@ const ModalAuth = () => {
     }
   }, [modal?.isOpen, setFormName]);
 
+  const handleClickAuthYandex = () => {
+    sessionStorage.setItem('pathname', location.pathname)
+  }
+
   return (
     <BaseModal title='Авторизация'
       isOpen={modal?.isOpen}
@@ -36,12 +44,13 @@ const ModalAuth = () => {
     >
       <div className="flex flex-col h-full w-full">
         <h3 className="text-center text-xl font-medium">Личный кабинет</h3>
-        <FormComponent setFormName={setFormName} closeModal={() => closeModal('modalAuth')} />
+        <FormComponent setFormName={setFormName} closeModal={() => closeModal('modalAuth')} onSuccess={onSuccess} />
 
         <div className="flex flex-col items-center gap-2 mt-3">
           <p className="text-base text-[#656666]">Войти с помощью</p>
           <div className="flex flex-wrap gap-2">
             <a href={`${baseURL}/auth/yandex`}
+              onClick={handleClickAuthYandex}
               className="w-9 h-9 rounded-full flex items-center justify-center p-1 duration-300 transition-colors hover:bg-[#E92100]">
               <YandexSvg />
             </a>

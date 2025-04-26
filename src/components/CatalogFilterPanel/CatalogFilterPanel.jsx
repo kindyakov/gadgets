@@ -43,10 +43,14 @@ const CatalogFilterPanel = ({ title = '', name = '', items = [], selectedValues 
     );
   }, [items, searchTerm]);
 
+  const handleClick = () => {
+    setIsLocalOpen(prev => !prev)
+  }
+
   return (
     <div className='p-3 bg-[#f5f9fd] rounded-lg shadow-sm'>
       <button className='flex items-center justify-between gap-3 w-full'
-        onClick={() => setIsLocalOpen(prev => !prev)}
+        onClick={handleClick}
       >
         <p className='relative'>
           {title}
@@ -77,13 +81,14 @@ const CatalogFilterPanel = ({ title = '', name = '', items = [], selectedValues 
           <div className="wp-input">
             <input type="text" name='searchTerm' className='input bg-[#f5f9fd] focus:bg-[#fff]' placeholder="Поиск..." autoComplete='off' value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
             <SearchSvg className={`w-4 h-4 ${!!searchTerm ? 'hidden' : ''}`} />
-            <button className={`absolute w-5 h-5 right-3 top-1/2 items-center justify-center transform -translate-y-1/2 ${!!searchTerm ? 'flex' : 'hidden'}`} onClick={() => setSearchTerm('')}>
+            <button className={`absolute w-5 h-5 right-3 top-1/2 items-center justify-center transform -translate-y-1/2 
+              ${!!searchTerm ? 'flex' : 'hidden'}`} onClick={() => setSearchTerm('')}>
               <CloseSvg className='w-full h-full' style={{ inset: 'auto', transform: 'translateY(0)' }} />
             </button>
           </div>
         )}
 
-        <div className='flex flex-col gap-2 mt-5 overflow-y-auto max-h-[214px] scrollbar overscroll-none pr-1'>
+        <div className={`flex flex-col gap-2 mt-5 max-h-[200px] h-full scrollbar overscroll-none pr-1 overflow-y-auto`}>
           {
             filteredBySearch.length ? (
               filteredBySearch.map((item, index) => (

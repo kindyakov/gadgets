@@ -11,7 +11,6 @@ import Search from './pages/Search/Search'
 import Game from './pages/Game/Game'
 import Account from './pages/Account/Account'
 import Feedback from './pages/Feedback/Feedback'
-import Basket from './pages/Basket/Basket'
 import Faq from './pages/Faq/Faq'
 import Catalog from './pages/Catalog/Catalog'
 import Reviews from './pages/Reviews/Reviews'
@@ -23,7 +22,8 @@ import { useUserStore } from './store/useUserStore';
 
 function App() {
   const [token] = useState(() => Cookies.get('token') || null);
-  const { login, logout } = useUserStore()
+  const login = useUserStore(state => state.login)
+  const logout = useUserStore(state => state.logout)
   const { data, isLoading, error } = useProfile(!!token)
   const queryClient = useQueryClient();
 
@@ -50,7 +50,6 @@ function App() {
         <Route path="/game" element={<Game />} />
         <Route path="/account/*" element={<Account />} />
         <Route path="/feedback" element={<Feedback />} />
-        <Route path="/basket" element={<Basket />} />
         <Route path="/faq" element={<Faq />} />
         <Route path="/catalog/*" element={<Catalog />} />
         <Route path="/reviews/*" element={<Reviews />} />

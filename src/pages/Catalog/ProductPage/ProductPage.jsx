@@ -1,10 +1,9 @@
 import './styles.scss'
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom"
 import { useProducts } from "../../../hooks/useProducts";
 import { useBrands } from "../../../hooks/useBrands";
 import { formatCurrency } from '../../../utils/formatCurrency';
-import Loader from "../../../components/Loader/Loader";
 
 import ProductSlider from '../../../components/ProductSlider/ProductSlider';
 import ProductRating from "../../../components/ProductRating/ProductRating";
@@ -66,7 +65,7 @@ const ProductPage = ({ slug, segments }) => {
             </div>
           </div>
 
-          <ProductVariants variants={data.variants} features={data.features} slug={data.slug} />
+          <ProductVariants product={data} />
 
           <div className="flex items-end gap-3 mt-5">
             <b className="text-2xl font-bold">{formatCurrency(data.price)}</b>

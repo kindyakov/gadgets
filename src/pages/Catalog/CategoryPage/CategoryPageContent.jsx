@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useQuery } from "@tanstack/react-query";
 import { useFilterStore } from "../../../store/useFilterStore";
 import { useDebounce } from "../../../hooks/useDebounce";
-import { useSyncFiltersWithURL } from '../../../hooks/useSyncFiltersWithURL';
+// import { useSyncFiltersWithURL } from '../../../hooks/useSyncFiltersWithURL';
 import ReactPaginate from 'react-paginate';
 import CategoryTags from '../../../components/CategoryTags/CategoryTags';
 import AsideFilters from "../../../layout/AsideFilters/AsideFilters";

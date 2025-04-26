@@ -6,13 +6,13 @@ export function useDeleteFromBasket() {
   const { deleteFromBasket } = useUserStore()
 
   return useMutation({
-    mutationKey: ['Delete-from-basket'],
-    mutationFn: async (productId) => services.deleteFromBasket(productId),
-    onSuccess: (data, productId) => {
+    mutationKey: ['delete-from-basket'],
+    mutationFn: async (products) => services.deleteFromBasket(products.map(p => p.id)),
+    onSuccess: (data, products) => {
       if (data && data.status === 'success') {
-        deleteFromBasket(productId)
+        deleteFromBasket(products.map(p => p.id))
       }
     },
-    onError: error => console.error('Ошибка при удалении товара из корзины:', error)
+    onError: error => console.error('Ошибка при удалении товара из корзины:', error),
   });
 }

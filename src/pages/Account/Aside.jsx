@@ -35,22 +35,24 @@ const Aside = ({ slug }) => {
   }
 
   return (
-    <aside className={`${isOpen ? 'w-1/5' : 'w-14'}  transition-all flex flex-col gap-2 flex-shrink-0`}>
-      {accountRoutes.map((route, index) => (
-        <Link key={index} to={route.path}
-          className={`p-3 rounded-md transition-colors border-[1px] border-solid border-[#dbdbdb] relative text-nowrap flex items-center justify-between
+    <aside className={`${isOpen ? 'w-1/5' : 'w-14'}  transition-all flex-shrink-0`}>
+      <div className="flex flex-col gap-2">
+        {accountRoutes.map((route, index) => (
+          <Link key={index} to={route.path}
+            className={`p-3 rounded-md transition-colors border-[1px] border-solid border-[#dbdbdb] relative text-nowrap flex items-center justify-between
             ${route.path === location.pathname ? 'bg-red-light text-white' : 'hover:border-[#FF4D4D] hover:text-red-light'}`}
-          onClick={(e) => handleClickTab(e, route)}>
-          <div className="overflow-hidden relative w-full h-full flex items-center gap-4">
-            <route.icon style={{ width: '30px', height: '30px', flexShrink: 0 }} />
-            <span>{route.title}</span>
-          </div>
-          {countSpan[route.path] ? countSpan[route.path]() : ''}
-        </Link>
-      ))
-      }
+            onClick={(e) => handleClickTab(e, route)}>
+            <div className="overflow-hidden relative w-full h-full flex items-center gap-4">
+              <route.icon style={{ width: '30px', height: '30px', flexShrink: 0 }} />
+              <span>{route.title}</span>
+            </div>
+            {countSpan[route.path] ? countSpan[route.path]() : ''}
+          </Link>
+        ))
+        }
 
-      <button onClick={() => setIsOpen(prev => !prev)}>aasdasd</button>
+        <button onClick={() => setIsOpen(prev => !prev)}>|'/-\'|</button>
+      </div>
     </aside>
   )
 }

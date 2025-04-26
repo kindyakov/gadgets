@@ -2,10 +2,11 @@ import { useState, useMemo } from "react"
 import { useNavigate, useLocation } from "react-router-dom";
 import { useFeaturesTranslateStore } from "../../store/useFeaturesTranslateStore";
 
-const ProductVariants = ({ variants = [], features = {}, slug = '' }) => {
+const ProductVariants = ({ product }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const { featuresTranslate } = useFeaturesTranslateStore()
+  const { variants = [], features = {}, slug = '' } = product
 
   const localVariants = useMemo(() => {
     const result = {};

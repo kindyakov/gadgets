@@ -115,6 +115,7 @@ svg {
 
   &:checked+.checkbox-label {
     background-color: $red-light;
+    border-color: $red-light;
 
     svg {
       opacity: 1;

@@ -1,11 +1,10 @@
-import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { IMaskInput } from "react-imask";
 import toast from 'react-hot-toast';
 import { useAuth } from "../../../hooks/useAuth";
 import Button from "../../../ui/Button";
 
-const AuthForm = ({ setFormName, closeModal }) => {
+const AuthForm = ({ setFormName, closeModal, onSuccess }) => {
   const {
     control,
     register,
@@ -14,25 +13,26 @@ const AuthForm = ({ setFormName, closeModal }) => {
     formState: { errors },
   } = useForm();
 
-  const { mutate, isPending, isSuccess, error, data } = useAuth()
+  const { mutateAsync, isPending, } = useAuth()
 
-  const onSubmit = (data) => {
-    data.phone = data.phone.replace(/\D/g, '')
-    mutate(data)
-  };
-
-  useEffect(() => {
-    if (data && isSuccess) {
-      const { status, message } = data
+  const onSubmit = async (data) => {
+    try {
+      data.phone = data.phone.replace(/\D/g, '')
+      const { status, message, ...profile } = await mutateAsync(data);
 
       if (status === 'success') {
+        onSuccess?.(profile)
         reset()
         closeModal()
       }
 
-      toast[status](message, { duration: 3000, })
+      if (status && message) {
+        toast[status](message, { duration: 3000, })
+      }
+    } catch (error) {
+      console.error('Ошибка при авторизации:', error);
     }
-  }, [data])
+  };
 
   return (
     <form className="flex flex-col gap-4 mt-5" onSubmit={handleSubmit(onSubmit)}>

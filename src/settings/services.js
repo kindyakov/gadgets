@@ -72,8 +72,8 @@ const services = {
     return response.data
   },
   // delete из корзины
-  deleteFromBasket: async (productId) => {
-    const response = await api.delete(`/basket/${productId}`)
+  deleteFromBasket: async (productIds) => {
+    const response = await api.delete(`/basket`, { data: productIds })
     await delay(1500)
     return response.data
   },

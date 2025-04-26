@@ -21,7 +21,7 @@ const ProductSlider = ({ product }) => {
   return (
     <>
       <Swiper
-        className="select-none max-h-[700px] max-w-full swiper-product-page"
+        className="select-none max-h-[700px] max-w-full min-h-[400px] swiper-product-page"
         modules={[Navigation, Controller]}
         onSwiper={setMainSwiper}
         navigation

@@ -1,8 +1,7 @@
 import { useState, useRef } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
 import { Link } from "react-router-dom";
 
+import { useUserStore } from '../../store/useUserStore';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { useAddInBasket } from '../../hooks/useAddInBasket';
 
@@ -13,6 +12,10 @@ import ProductActions from '../ProductActions/ProductActions';
 
 import { HiMinus } from "react-icons/hi";
 import { LuPlus } from "react-icons/lu";
+import { MdDeleteOutline } from "react-icons/md";
+import { MdOutlineDelete } from "react-icons/md";
+import { FaBoltLightning } from "react-icons/fa6";
+import { CheckSvg } from '../../ui/svg/CheckSvg'
 
 // Реализация функции debounce
 function debounce(func, delay) {
@@ -23,12 +26,13 @@ function debounce(func, delay) {
   };
 }
 
-const ProductCardBasket = ({ product }) => {
+const ProductCardBasket = ({ product, handleClickDelete, handleCreateOrder }) => {
   const [quantity, setQuantity] = useState(product.quantity);
   const { mutate, isPending } = useAddInBasket();
-
+  const { selectProducts, setSelectProducts } = useUserStore()
   // Создаём дебаунс-версию функции mutate
   const debouncedMutate = useRef(debounce((prod) => mutate(prod), 300)).current;
+  const isChecked = selectProducts.find(p => p.id === product.id)
 
   const handleMinusClick = () => {
     if (quantity > 1) {
@@ -44,6 +48,15 @@ const ProductCardBasket = ({ product }) => {
     debouncedMutate(newProduct);
   };
 
+  const handleChangeCheckbox = () => {
+    if (selectProducts.find(p => p.id === product.id)) {
+      const updatedSelectProducts = selectProducts.filter(p => p.id !== product.id)
+      setSelectProducts(updatedSelectProducts)
+    } else {
+      setSelectProducts([...selectProducts, product])
+    }
+  }
+
   const statusColor = {
     available: '#46d16d',
     sold_out: '#ff4d4d',
@@ -53,7 +66,14 @@ const ProductCardBasket = ({ product }) => {
   const path = '/catalog' + product.path;
 
   return (
-    <div className='w-full flex gap-4 justify-between p-4 rounded-xl border-solid border-[1px] border-[#ebf0f7]'>
+    <div className='w-full flex gap-4 justify-between p-4 rounded-xl border-solid border-[1px] border-[#ebf0f7] relative'>
+      <input type="checkbox" className="checkbox-input" id={product.id}
+        checked={isChecked}
+        onChange={handleChangeCheckbox} />
+      <label htmlFor={product.id} className="checkbox-label absolute z-[2] top-[10px] left-[10px] bg-white select-none">
+        <CheckSvg />
+      </label>
+
       <ProductImageSlider product={product} path={path} />
       <div className="flex-auto">
         <div className="flex items-center gap-x-2 gap-y-1 flex-wrap">
@@ -76,6 +96,20 @@ const ProductCardBasket = ({ product }) => {
           </p>
           <p>Артикул: {product.article}</p>
           <ProductExpertAssessment product={product} />
+        </div>
+        <div className="flex gap-3 mt-2">
+          <button
+            className='w-8 h-8 flex items-center justify-center flex-shrink-0 border-[1px] border-solid border-[#dbdbdb] rounded-md transition-colors hover:text-[#fff] hover:bg-red-light'
+            onClick={() => handleClickDelete([product])}>
+            <MdOutlineDelete className='w-5 h-5' />
+          </button>
+          <button
+            className='h-8 px-2 flex items-center gap-1 justify-center flex-shrink-0 border-[1px] border-solid border-[#dbdbdb] rounded-md transition-colors hover:text-[#fff] hover:bg-red-light group'
+            onClick={() => handleCreateOrder([product])}
+          >
+            <FaBoltLightning className='fill-red-light stroke-red-light' />
+            <span>Купить</span>
+          </button>
         </div>
       </div>
       <div className="flex flex-col gap-3">

@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useUserStore } from "../../store/useUserStore"
 
 import Page from "../Page"
+import Profile from "./Profile/Profile"
 import Favorite from './Favorite/Favorite'
 import Comparison from './Comparison/Comparison'
 import Basket from './Basket/Basket'
@@ -14,6 +15,7 @@ const Account = () => {
   const { isAuth } = useUserStore()
 
   const pages = {
+    profile: (props) => <Profile {...props} />,
     favorites: (props) => <Favorite {...props} />,
     comparison: (props) => <Comparison {...props} />,
     basket: (props) => <Basket {...props} />,
