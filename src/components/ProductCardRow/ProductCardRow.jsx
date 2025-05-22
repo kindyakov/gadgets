@@ -7,6 +7,7 @@ import ProductRating from '../ProductRating/ProductRating';
 import ProductExpertAssessment from '../ProductExpertAssessment/ProductExpertAssessment';
 import ProductActions from '../ProductActions/ProductActions';
 import ProductAddBasket from '../ProductAddBasket/ProductAddBasket';
+import ProductCardSlider from '../ProductImageSlider/ProductImageSlider'
 
 const ProductCardRow = ({ product }) => {
   const statusColor = {
@@ -19,22 +20,7 @@ const ProductCardRow = ({ product }) => {
 
   return (
     <div className="flex gap-4 justify-between p-5 rounded-xl border-solid border-[1px] border-[#ebf0f7]">
-      <Link to={path}
-        className=" overflow-hidden rounded-xl border-solid border-[1px] border-[#ebf0f7] w-[240px] flex-shrink-0 group">
-        <Swiper
-          className="max-full h-full"
-          modules={[Pagination]}
-          pagination={{ clickable: true }}
-          spaceBetween={10}
-          slidesPerView={1}
-        >
-          {product.images.length && product.images.map(img => (
-            <SwiperSlide key={img} className="my-auto flex items-center justify-center p-2" >
-              <img src={img} alt={product.title} width={240} height={240} className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform" loading="lazy" />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </Link>
+      <ProductCardSlider product={product} path={path} />
       <div className="flex-auto">
         <div className="flex justify-between gap-4">
           <div className="flex items-center gap-x-2 gap-y-1 flex-wrap">

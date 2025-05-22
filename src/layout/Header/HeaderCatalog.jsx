@@ -75,7 +75,6 @@ const HeaderCatalog = ({ isCatalogOpen, setIsCatalogOpen, headerHeight }) => {
           </div>
         </div>
       </div>
-      <div className={`overlay ${isCatalogOpen ? '_active' : ''}`}></div>
     </>
   )
 }

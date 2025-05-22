@@ -6,6 +6,7 @@ import { useModalStore } from "../../store/useModalStore"
 import { handleLogout } from "../../helpers/logoutHelpers.js";
 
 import HeaderCatalog from './HeaderCatalog'
+import HeaderSearch from './HeaderSearch.jsx';
 
 import { LogoSvg } from '../../ui/svg/LogoSvg'
 import { TriangleSvg } from '../../ui/svg/TriangleSvg'
@@ -15,15 +16,17 @@ import { ComparisonSvg } from '../../ui/svg/ComparisonSvg'
 import { AccountSvg } from '../../ui/svg/AccountSvg'
 import { CatalogSvg } from '../../ui/svg/CatalogSvg'
 import { HomeSvg } from '../../ui/svg/HomeSvg'
+import { BasketSvg } from "../../ui/svg/BasketSvg";
 import accountRoutes from '../../pages/Account/account.routes.js';
 
 const Header = () => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
   const headerRef = useRef(null);
   const [headerHeight, setHeaderHeight] = useState(0);
   const location = useLocation();
   const navigate = useNavigate()
-  const { isAuth, favorites, logout } = useUserStore()
+  const { isAuth, favorites, basket, logout } = useUserStore()
   const { openModal } = useModalStore()
 
   useEffect(() => {
@@ -51,6 +54,11 @@ const Header = () => {
     { to: '/account', icon: <AccountSvg />, name: 'Аккаунт', onClick: handleClickAccount },
   ]
 
+  const spanCount = (count) => {
+    return count > 0
+      ? <span className='absolute top-0 right-0 text-xs flex items-center justify-center text-center rounded-full text-white w-4 h-4 bg-yellow-light translate-x-1/2 -translate-y-1/2'>{count}</span>
+      : null
+  }
   return (
     <>
       <header ref={headerRef} className="header relative z-20 border-b border-solid border-[#f2f5f9] bg-[#fdfdfd]">
@@ -58,8 +66,8 @@ const Header = () => {
           <div className="header__inner flex sm:flex-row flex-col w-full justify-between gap-3 xl:gap-5">
             <div className='flex items-center gap-3'>
               <Link to='/' className='header__logo flex items-center gap-3'>
-                <LogoSvg />
-                <span>Behoof</span>
+                <img src="/logo.png" alt="Лого" className='max-w-10' />
+                <span>RedTech</span>
               </Link>
               <p className='header__logo-text'>Лучшие цены<br />в интернет-магазинах </p>
             </div>
@@ -82,15 +90,14 @@ const Header = () => {
                 className='header__link p-2 transition-colors flex-shrink-0 relative'
                 onClick={handleClickAccount}>
                 <FavoriteSvg />
-                {favorites.length > 0
-                  ? <span className='absolute top-0 right-0 text-xs flex items-center justify-center text-center rounded-full text-white w-4 h-4 bg-yellow-light translate-x-1/2 -translate-y-1/2'>{favorites.length}</span>
-                  : null}
+                {spanCount(favorites.length)}
               </Link>
               <Link
-                to='/account/comparison'
+                to='/account/basket'
                 className='header__link p-2 transition-colors flex-shrink-0'
                 onClick={handleClickAccount}>
-                <ComparisonSvg />
+                {spanCount(basket.length)}
+                <BasketSvg width='25px' />
               </Link>
               <div className="relative group">
                 <Link
@@ -134,6 +141,12 @@ const Header = () => {
         setIsCatalogOpen={setIsCatalogOpen}
         headerHeight={headerHeight}
       />
+      <HeaderSearch
+        isSearchOpen={isSearchOpen}
+        setIsSearchOpen={setIsSearchOpen}
+        headerHeight={headerHeight}
+      />
+      <div className={`overlay ${isCatalogOpen || isSearchOpen ? '_active' : ''}`}></div>
       <nav className='header__mobile w-full fixed left-0 right-0 bottom-0 bg-[#fdfdfd] sm:hidden'>
         <ul className='header__mobile_list flex justify-center max-w-[375px] mx-auto'>
           {mobileMenu?.length && mobileMenu.map((item, index) => (

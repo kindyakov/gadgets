@@ -15,6 +15,7 @@ import Faq from './pages/Faq/Faq'
 import Catalog from './pages/Catalog/Catalog'
 import Reviews from './pages/Reviews/Reviews'
 import OAuthCallback from './pages/OAuthCallback/OAuthCallback'
+import OrderRegistration from './pages/OrderRegistration/OrderRegistration';
 
 import InitialModals from './InitialModals'
 import { useProfile } from './hooks/useProfile';
@@ -54,6 +55,7 @@ function App() {
         <Route path="/catalog/*" element={<Catalog />} />
         <Route path="/reviews/*" element={<Reviews />} />
         <Route path="/auth-success" element={<OAuthCallback />} />
+        <Route path="/order-registration" element={<OrderRegistration />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

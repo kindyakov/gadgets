@@ -57,7 +57,10 @@ const CategoryPageContent = ({ slug }) => {
           {data?.meta?.totalPages > 1 ? <ReactPaginate
             breakLabel="..."
             nextLabel="Вперед"
-            onPageChange={({ selected }) => setPage(selected + 1)}
+            onPageChange={({ selected }) => {
+
+              setPage(selected + 1)
+            }}
             pageRangeDisplayed={3}
             pageCount={data?.meta?.totalPages}
             previousLabel="Назад"

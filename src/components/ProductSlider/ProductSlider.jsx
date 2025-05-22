@@ -6,6 +6,11 @@ const ProductSlider = ({ product }) => {
   const [mainSwiper, setMainSwiper] = useState(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
+  const handleErrorImg = (e) => {
+    e.target.src = '/images/placeholder.png'
+  }
+
+
   useEffect(() => {
     if (
       mainSwiper &&
@@ -32,7 +37,7 @@ const ProductSlider = ({ product }) => {
       >
         {product.images.map((image) => (
           <SwiperSlide key={image} className="flex items-center justify-center">
-            <img src={image} alt={product.title} className="max-h-full max-w-full object-contain" />
+            <img src={image} alt={product.title} className="max-h-full max-w-full object-contain" onError={handleErrorImg} />
           </SwiperSlide>
         ))}
       </Swiper>
@@ -51,9 +56,10 @@ const ProductSlider = ({ product }) => {
       >
         {product.images.map(image => (
           <SwiperSlide key={image}
-            className="flex items-center justify-center p-3 border rounded-xl cursor-pointer group">
+            className="flex items-center justify-center p-3 border rounded-xl cursor-pointer group min-h-20">
             <img src={image} alt={product.title}
-              className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform" />
+              className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
+              onError={handleErrorImg} />
           </SwiperSlide>
         ))}
       </Swiper>

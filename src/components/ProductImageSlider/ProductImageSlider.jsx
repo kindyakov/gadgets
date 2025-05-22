@@ -3,6 +3,10 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
 
 const ProductImageSlider = ({ product, path }) => {
+  const handleErrorImg = (e) => {
+    e.target.src = '/images/placeholder.png'
+  }
+
   return (
     <Link to={path}
       className="overflow-hidden rounded-xl border-solid border-[1px] border-[#ebf0f7] w-[200px] flex-shrink-0 group">
@@ -21,7 +25,7 @@ const ProductImageSlider = ({ product, path }) => {
               width={240}
               height={240}
               className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform"
-              loading="lazy"
+              onError={handleErrorImg}
             />
           </SwiperSlide>
         ))}

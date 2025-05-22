@@ -16,8 +16,8 @@ const AsideFilters = ({ filters }) => {
       }
 
       {Object.keys(features).length > 0
-        ? Object.keys(features).map((feature) => (
-          <CatalogFilterPanel key={features[feature]}
+        ? Object.keys(features).map((feature, i) => (
+          <CatalogFilterPanel key={features[feature] + i}
             title={featuresTranslate[feature] || feature}
             name={feature}
             items={features[feature]}

@@ -25,6 +25,7 @@ export default {
 			'gray': '#4f6786',
 			'white': '#ffffff',
 			'lines': '#dfe4ea',
+			'blue': '#0178F4',
 			'background': '#f6f7f9',
 			'red-light': '#ff4d4d',
 			'red-light-100': 'rgba(255, 77, 77, 0.1)',

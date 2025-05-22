@@ -17,8 +17,8 @@ const Footer = () => {
         <div className="grid gap-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2">
           <div className="flex flex-col gap-4">
             <Link to="/" className="flex items-center gap-3">
-              <LogoSvg />
-              <span className="text-[#0f1113] font-bold text-3xl font-verdana">Behoof</span>
+              <img src="/logo.png" alt="Лого" className="max-w-10" />
+              <span className="text-[#0f1113] font-bold text-3xl font-verdana">RedTech</span>
             </Link>
 
             <p className="text-[#a1abb9] font-normal text-base">Мы в соц сетях</p>
@@ -84,7 +84,7 @@ const Footer = () => {
             </ul>
           </div>
           <div className="flex flex-col gap-4">
-            <p className="text-[#a1abb9] font-normal text-base">Команда Behoof</p>
+            <p className="text-[#a1abb9] font-normal text-base">Команда RedTech</p>
             <ul className="flex flex-col gap-4">
               <li>
                 <Link to={'/about'} className="text-[#263141] font-normal text-base hover:text-red-light transition-colors">О нас</Link>
@@ -96,7 +96,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="py-6 border-t border-[#eceeef] border-solid mt-3">
-          <p className="text-[#a1abb9] font-normal text-base">Copyright © 2023 Behoof, Inc. Все права защищены</p>
+          <p className="text-[#a1abb9] font-normal text-base">Copyright © 2023 RedTech, Inc. Все права защищены</p>
         </div>
       </div>
     </footer>

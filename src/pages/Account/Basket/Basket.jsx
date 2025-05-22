@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Link, } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useIsMutating } from '@tanstack/react-query'
 
 import { useUserStore } from '../../../store/useUserStore'
@@ -16,9 +16,12 @@ const Basket = () => {
   const { mutate, isPending } = useDeleteFromBasket()
   const isMutating = useIsMutating({ mutationKey: ['add-in-basket'] });
   const totalPrice = useMemo(() => selectProducts?.reduce((acc, item) => acc + item.totalPrice || 0, 0), [selectProducts])
+  const navigate = useNavigate()
 
   const handleChangeCheckbox = () => {
-    if (basket.length === selectProducts.length) {
+    const allSelected = basket.length && basket.every(item => selectProducts.some(sel => sel.id === item.id));
+
+    if (allSelected) {
       setSelectProducts([])
     } else {
       setSelectProducts(basket)
@@ -30,7 +33,7 @@ const Basket = () => {
   }
 
   const handleCreateOrder = (products) => {
-    console.log(products);
+    navigate(`/order-registration?${products.map(p => `productIds=${p.id}`).join('&')}`);
   }
 
   return (
@@ -63,9 +66,9 @@ const Basket = () => {
 
         <div className="flex flex-col gap-3">
           {basket?.length ? (
-            basket.map((product, index) => (
+            basket.map((product) => (
               <ProductCardBasket
-                key={index}
+                key={product.id}
                 product={product}
                 handleClickDelete={handleClickDelete}
                 handleCreateOrder={handleCreateOrder} />

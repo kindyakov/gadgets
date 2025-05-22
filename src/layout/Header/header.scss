@@ -119,6 +119,25 @@
     }
   }
 
+  &__catalog,
+  &__search {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
+
+    &._open {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    &_body {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
   &__catalog {
     transition: opacity 0.3s ease, transform 0.3s ease;
     opacity: 0;
@@ -212,6 +231,8 @@
       border-radius: 15px;
     }
   }
+
+  &__search {}
 
   &__mobile {
     // &_list {}
