@@ -11,6 +11,7 @@ import { useOrder } from '../../hooks/useOrder';
 import { useUserStore } from '../../store/useUserStore'
 
 import FormContactInformation from './FormContactInformation';
+import DeliveryForm from './DeliveryForm';
 import Page from '../Page'
 import Loader from '../../components/Loader/Loader'
 
@@ -61,7 +62,9 @@ const OrderRegistration = () => {
         <div className="w-4/5">
           <h3 className='text-2xl font-bold'>Контактные данные</h3>
           <FormContactInformation user={user} />
+
           <h3 className='text-2xl font-bold mt-5'>Доставка</h3>
+          <DeliveryForm />
 
           <h3 className='text-2xl font-bold mt-5'>Способ оплаты</h3>
 

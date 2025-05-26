@@ -64,4 +64,6 @@ export const useUserStore = create((set, get) => ({
   updatedFavorites: (favorites) => set({ favorites }),
   setSelectProducts: (selectProducts) => set({ selectProducts }),
   updatedPendingProduct: (product) => set({ pendingProduct: product }),
+  setOrders: (orders) => set({ orders }),
+  addToOrders: (order) => set(state => ({ orders: [...state.orders, order] })),
 }));

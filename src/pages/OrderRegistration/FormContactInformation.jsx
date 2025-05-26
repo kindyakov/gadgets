@@ -42,8 +42,8 @@ const FormContactInformation = ({ user }) => {
   return (
     <form className='grid gap-4 grid-cols-3 mt-4' onSubmit={handleSubmit(onSubmit)}>
       <div className="wp-input">
-        <span className="text-sm text-[#808080]">Имя</span>
         <input type="text" name='name' className='input'
+          placeholder="Имя"
           {...register("name", {
             required: 'Введите имя',
             minLength: { value: 2, message: 'Минимум 2 символов' },
@@ -52,8 +52,8 @@ const FormContactInformation = ({ user }) => {
         {spanError('name')}
       </div>
       <div className="wp-input">
-        <span className="text-sm text-[#808080]">Фамилия</span>
         <input type="text" name='surname' className='input'
+          placeholder="Фамилия"
           {...register("surname", {
             required: 'Введите фамилию',
             minLength: { value: 2, message: 'Минимум 2 символов' },
@@ -62,7 +62,6 @@ const FormContactInformation = ({ user }) => {
         {spanError('surname')}
       </div>
       <div className="wp-input relative">
-        <span className="text-sm text-[#808080]">Телефон</span>
         <Controller
           name="phone"
           control={control}
@@ -78,6 +77,7 @@ const FormContactInformation = ({ user }) => {
               mask="+7 (000) 000-00-00"
               className="input"
               inputMode="tel"
+              placeholder="Телефон"
               inputRef={(el) => {
                 if (el && el.input) {
                   ref(el.input);
