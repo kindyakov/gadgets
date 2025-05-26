@@ -51,47 +51,62 @@ const services = {
   // post Авторизация
   auth: async (data) => {
     const response = await api.post('/auth/local', data)
-    // await delay(2000)
+    await delay(2000)
     return response.data
   },
   // post Регистрация
   register: async (data) => {
     const response = await api.post('/register', data)
-    // await delay(2000)
+    await delay(2000)
     return response.data
   },
   getBasket: async () => {
     const response = await api.get('/basket')
-    // await delay(1500)
+    await delay(1500)
     return response.data
   },
   // post Добавление в корзину
   addInBasket: async (productId, data = {}) => {
     const response = await api.post(`/basket/${productId}`, data)
-    // await delay(1500)
+    await delay(1500)
     return response.data
   },
   // delete из корзины
   deleteFromBasket: async (productIds) => {
     const response = await api.delete(`/basket`, { data: productIds })
-    // await delay(1500)
+    await delay(1500)
     return response.data
   },
   getFavorites: async () => {
     const response = await api.get('/favorites')
-    // await delay(1500)
+    await delay(1500)
     return response.data
   },
   toggleFavorite: async (productId) => {
     const response = await api.put(`/favorites/${productId}`,)
-    // await delay(1500)
+    await delay(1500)
     return response.data
   },
   getProfile: async () => {
     const response = await api.get('/profile')
-    // await delay(1500)
+    await delay(1500)
     return response.data
-  }
+  },
+  createOrder: async (products) => {
+    const response = await api.post('/order', { products })
+    await delay(1500)
+    return response.data
+  },
+  getOrder: async (id) => {
+    const response = await api.get(`/order/${id}`)
+    await delay(1500)
+    return response.data
+  },
+  getOrders: async () => {
+    const response = await api.get(`/order`)
+    await delay(1500)
+    return response.data
+  },
 }
 
 export default services

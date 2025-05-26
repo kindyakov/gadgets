@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useIsMutating } from '@tanstack/react-query'
 
 import { useUserStore } from '../../../store/useUserStore'
@@ -10,13 +10,14 @@ import ProductCardBasket from '../../../components/ProductCardBasket/ProductCard
 import Loader from '../../../components/Loader/Loader'
 
 import { CheckSvg } from '../../../ui/svg/CheckSvg'
+import { useCreateOrder } from '../../../hooks/useCreateOrder'
 
 const Basket = () => {
   const { basket, selectProducts, setSelectProducts } = useUserStore()
-  const { mutate, isPending } = useDeleteFromBasket()
+  const { mutate: mutateDelFromBasket, isPending: isPendingDelFromBasket } = useDeleteFromBasket()
+  const { mutate: mutateCreateOrder, isPending: isPendingCreateOrder, } = useCreateOrder()
   const isMutating = useIsMutating({ mutationKey: ['add-in-basket'] });
   const totalPrice = useMemo(() => selectProducts?.reduce((acc, item) => acc + item.totalPrice || 0, 0), [selectProducts])
-  const navigate = useNavigate()
 
   const handleChangeCheckbox = () => {
     const allSelected = basket.length && basket.every(item => selectProducts.some(sel => sel.id === item.id));
@@ -29,17 +30,17 @@ const Basket = () => {
   }
 
   const handleClickDelete = (products) => {
-    mutate(products)
+    mutateDelFromBasket(products)
   }
 
   const handleCreateOrder = (products) => {
-    navigate(`/order-registration?${products.map(p => `productIds=${p.id}`).join('&')}`);
+    mutateCreateOrder(products)
   }
 
   return (
     <div className="h-full flex relative">
 
-      <div className={`absolute w-full h-full inset-0 transition-opacity z-[5] bg-[rgba(0,0,0,0.15)] ${isMutating || isPending ? '' : 'opacity-0 invisible'}`}>
+      <div className={`absolute w-full h-full inset-0 transition-opacity z-[5] bg-[rgba(0,0,0,0.15)] ${isMutating || isPendingDelFromBasket || isPendingCreateOrder ? '' : 'opacity-0 invisible'}`}>
         <Loader color='red' width={60} height={60} />
       </div>
 
@@ -93,7 +94,7 @@ const Basket = () => {
         </ul>
         <button
           className='button w-full mt-3'
-          disabled={!selectProducts.length}
+          disabled={!selectProducts.length || isPendingCreateOrder}
           onClick={() => handleCreateOrder(selectProducts)}
         >
           Перейти к оформление

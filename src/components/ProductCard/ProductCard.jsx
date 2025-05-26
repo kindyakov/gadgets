@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom"
 import { formatCurrency } from '../../utils/formatCurrency';
+import { handleErrorImg } from "../../utils/handleErrorImg";
 import { TriangleSvg } from '../../ui/svg/TriangleSvg';
 import ProductActions from '../ProductActions/ProductActions';
 
 const ProductCard = ({ product }) => {
-  const handleErrorImg = (e) => {
-    e.target.src = '/images/placeholder.png'
-  }
   return (
     <div className="flex flex-col lg:gap-5 gap-3 bg-[#f6f7fa] p-5 rounded-xl border-[#f2f5f9] border-solid border-[1px] group h-fit">
       <Link to={`/${product?.slug}`} className="w-full flex items-center justify-center overflow-hidden lg:h-40 h-32">

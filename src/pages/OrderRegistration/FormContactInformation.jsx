@@ -1,5 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
 import { IMaskInput } from "react-imask";
+import { useEffect } from "react";
 
 const FormContactInformation = ({ user }) => {
   const {
@@ -10,11 +11,21 @@ const FormContactInformation = ({ user }) => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      name: user.name,
-      surname: user.surname,
-      phone: user.phone
+      name: user.name || '',
+      surname: user.surname || '',
+      phone: user.phone || ''
     }
   });
+
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user?.name || '',
+        surname: user?.surname || '',
+        phone: user?.phone || '',
+      });
+    }
+  }, [user, reset]);
 
   const spanError = (key) => {
     return errors[key] && (

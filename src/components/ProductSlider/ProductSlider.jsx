@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Controller } from 'swiper/modules';
+import { handleErrorImg } from "../../utils/handleErrorImg";
 
 const ProductSlider = ({ product }) => {
   const [mainSwiper, setMainSwiper] = useState(null);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
-
-  const handleErrorImg = (e) => {
-    e.target.src = '/images/placeholder.png'
-  }
-
 
   useEffect(() => {
     if (

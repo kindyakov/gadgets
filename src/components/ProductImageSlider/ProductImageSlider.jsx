@@ -1,12 +1,9 @@
 import { Link } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
+import { handleErrorImg } from '../../utils/handleErrorImg';
 
 const ProductImageSlider = ({ product, path }) => {
-  const handleErrorImg = (e) => {
-    e.target.src = '/images/placeholder.png'
-  }
-
   return (
     <Link to={path}
       className="overflow-hidden rounded-xl border-solid border-[1px] border-[#ebf0f7] w-[200px] flex-shrink-0 group">

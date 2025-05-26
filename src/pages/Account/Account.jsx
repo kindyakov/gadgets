@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { useUserStore } from "../../store/useUserStore"
 
@@ -7,6 +7,7 @@ import Profile from "./Profile/Profile"
 import Favorite from './Favorite/Favorite'
 import Comparison from './Comparison/Comparison'
 import Basket from './Basket/Basket'
+import Orders from "./Orders/Orders"
 import Aside from "./Aside"
 
 const Account = () => {
@@ -19,6 +20,7 @@ const Account = () => {
     favorites: (props) => <Favorite {...props} />,
     comparison: (props) => <Comparison {...props} />,
     basket: (props) => <Basket {...props} />,
+    orders: (props) => <Orders {...props} />,
   }
 
   const PageComponent = pages[slug] || null
