@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Pagination } from 'swiper/modules';
@@ -11,7 +11,7 @@ import { useOrder } from '../../hooks/useOrder';
 import { useUserStore } from '../../store/useUserStore'
 
 import FormContactInformation from './FormContactInformation';
-import DeliveryForm from './DeliveryForm';
+import Delivery from './Delivery';
 import Page from '../Page'
 import Loader from '../../components/Loader/Loader'
 
@@ -22,6 +22,16 @@ const OrderRegistration = () => {
   const [searchParams] = useSearchParams()
   const orderId = searchParams.get('orderId')
   const { data, isLoading } = useOrder(orderId)
+  const [deliveryDataMap, setDeliveryDataMap] = useState({
+    door: {},
+    cdek: {},
+    boxberry: {}
+  });
+
+
+  const handleClickPay = () => {
+
+  }
 
   useEffect(() => {
     if (!isAuth) {
@@ -33,14 +43,7 @@ const OrderRegistration = () => {
       navigate('/account/basket')
       return
     }
-
-    console.log(data);
-
   }, [isAuth, orderId, data]);
-
-  const handleClickPay = () => {
-
-  }
 
   return (
     <Page isBreadcrumbs={false}>
@@ -58,13 +61,13 @@ const OrderRegistration = () => {
         </Link>
         <h1 className='text-4xl font-bold mt-2'>Оформление заказа</h1>
       </div>
-      <div className="flex py-5">
+      <div className="flex py-5 gap-3">
         <div className="w-4/5">
           <h3 className='text-2xl font-bold'>Контактные данные</h3>
           <FormContactInformation user={user} />
 
           <h3 className='text-2xl font-bold mt-5'>Доставка</h3>
-          <DeliveryForm />
+          {data && <Delivery order={data} setDeliveryDataMap={setDeliveryDataMap} deliveryDataMap={deliveryDataMap} />}
 
           <h3 className='text-2xl font-bold mt-5'>Способ оплаты</h3>
 

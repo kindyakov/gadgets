@@ -22,9 +22,7 @@ const statusMessage = {
 
 export default function OrderCard({ order }) {
   const cardContent = (
-    <div className="w-full flex items-center gap-3 p-4 rounded-lg border border-gray-300 shadow-md
-                 transform transition duration-200 ease-in-out group-hover:shadow-lg group-hover:shadow-blue/20">
-      {/* Картинки товаров */}
+    <div className="w-full flex items-center gap-3 p-4 rounded-lg border border-gray-300 shadow-md transform transition duration-200 ease-in-out group-hover:shadow-lg group-hover:shadow-blue/20">
       <Swiper
         style={{
           '--swiper-pagination-bullet-size': '5px',
