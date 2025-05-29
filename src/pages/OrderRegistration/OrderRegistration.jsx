@@ -9,6 +9,7 @@ import { formatCurrency } from '../../utils/formatCurrency';
 import { handleErrorImg } from '../../utils/handleErrorImg';
 import { useOrder } from '../../hooks/useOrder';
 import { useUserStore } from '../../store/useUserStore'
+import { useDeliveryStore } from '../../store/useDeliveryStore';
 
 import FormContactInformation from './FormContactInformation';
 import Delivery from './Delivery';
@@ -18,19 +19,19 @@ import Loader from '../../components/Loader/Loader'
 const OrderRegistration = () => {
   const isAuth = useUserStore(state => state.isAuth)
   const user = useUserStore(state => state.user)
+  const { data, type, client } = useDeliveryStore();
+
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const orderId = searchParams.get('orderId')
-  const { data, isLoading } = useOrder(orderId)
-  const [deliveryDataMap, setDeliveryDataMap] = useState({
-    door: {},
-    cdek: {},
-    boxberry: {}
-  });
-
+  const { data: order, isLoading } = useOrder(orderId)
 
   const handleClickPay = () => {
-
+    console.log({
+      delivery: {
+        data, type, client
+      }
+    });
   }
 
   useEffect(() => {
@@ -43,12 +44,12 @@ const OrderRegistration = () => {
       navigate('/account/basket')
       return
     }
-  }, [isAuth, orderId, data]);
+  }, [isAuth, orderId, order]);
 
   return (
     <Page isBreadcrumbs={false}>
 
-      <div className={`absolute w-full h-full inset-0 transition-opacity z-[5] bg-[rgba(0,0,0,0.15)] ${isLoading ? '' : 'opacity-0 invisible'}`}>
+      <div className={`fixed w-full h-full inset-0 transition-opacity z-[5] bg-[rgba(0,0,0,0.15)] ${isLoading ? '' : 'opacity-0 invisible'}`}>
         <Loader color='red' width={60} height={60} />
       </div>
 
@@ -67,7 +68,7 @@ const OrderRegistration = () => {
           <FormContactInformation user={user} />
 
           <h3 className='text-2xl font-bold mt-5'>Доставка</h3>
-          {data && <Delivery order={data} setDeliveryDataMap={setDeliveryDataMap} deliveryDataMap={deliveryDataMap} />}
+          {order && <Delivery order={order} />}
 
           <h3 className='text-2xl font-bold mt-5'>Способ оплаты</h3>
 
@@ -82,7 +83,7 @@ const OrderRegistration = () => {
           <div className="w-full flex justify-between gap-2 items-center">
             <h4 className='font-bold text-2xl'>Ваш заказ</h4>
             <span className='text-[rgba(0,26,52,.6)] text-sm'>
-              {data?.countProduct} {declOfNum(data?.countProduct, ['товар', 'товара', 'товаров'])}
+              {order?.countProduct} {declOfNum(order?.countProduct, ['товар', 'товара', 'товаров'])}
             </span>
           </div>
           <Swiper
@@ -92,7 +93,7 @@ const OrderRegistration = () => {
             spaceBetween={10}
             slidesPerView={3}
           >
-            {data?.products?.map(({ id, title, images, quantity }) => (
+            {order?.products?.map(({ id, title, images, quantity }) => (
               <SwiperSlide key={id} style={{ display: 'flex' }} className="flex relative items-center justify-center p-2 min-h-36 rounded-lg border border-[#cacaca]">
                 <img src={images[0]} alt={title} className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform" onError={handleErrorImg} />
                 <span className='absolute bottom-1 text-xs bg-red-light w-5 h-5 flex items-center justify-center text-white rounded-full'>{quantity}</span>
@@ -107,7 +108,7 @@ const OrderRegistration = () => {
           <div className="w-full flex justify-between gap-2 mt-4">
             <h4 className='font-bold text-2xl'>Итог</h4>
             <span className='font-bold text-xl'>
-              {formatCurrency(data?.total)}
+              {formatCurrency(order?.total)}
             </span>
           </div>
         </div>

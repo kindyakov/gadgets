@@ -1,18 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
-import 'react-dadata/dist/react-dadata.css';
-
 import DeliveryDoor from './DeliveryDoor';
 import DeliveryCdek from './DeliveryCdek';
 import DeliveryBoxberry from './DeliveryBoxberry'
+import { useDeliveryStore } from '../../store/useDeliveryStore';
 
-const Delivery = ({ order, setDeliveryDataMap, deliveryDataMap }) => {
-  const [deliveryType, setDeliveryType] = useState('door');
-
-  const handleDeliveryData = useCallback(data => {
-    if (JSON.stringify(deliveryDataMap[deliveryType]) !== JSON.stringify(data)) {
-      setDeliveryDataMap(prev => ({ ...prev, [deliveryType]: data }))
-    }
-  }, [deliveryDataMap, deliveryType, setDeliveryDataMap]);
+const Delivery = ({ order, }) => {
+  const deliveryType = useDeliveryStore(state => state.type);
+  const setDeliveryType = useDeliveryStore(state => state.setType);
 
   const TabComponent = ({ type, text, }) => {
     return (
@@ -26,26 +19,22 @@ const Delivery = ({ order, setDeliveryDataMap, deliveryDataMap }) => {
   }
 
   const delivers = {
-    door: (props) => <DeliveryDoor {...props} defaultValues={{ ...order.delivery.address, ...deliveryDataMap.door }} />,
+    door: (props) => <DeliveryDoor {...props} order={order} />,
     cdek: (props) => <DeliveryCdek {...props} />,
     boxberry: (props) => <DeliveryBoxberry {...props} />
   }
 
   const DeliveryComponent = delivers[deliveryType]
 
-  useEffect(() => {
-    console.log(deliveryDataMap);
-  }, [deliveryDataMap])
-
   return (
     <>
-      <div className="flex gap-4 mt-4">
+      <div className="flex gap-4 mt-5">
         <TabComponent text='Доставка до двери' type='door' />
         <TabComponent text='Пункт выдачи (CDEK)' type='cdek' />
         <TabComponent text='Пункт выдачи (Boxberry)' type='boxberry' />
       </div>
 
-      <DeliveryComponent setDeliveryData={handleDeliveryData} />
+      <DeliveryComponent />
     </>
   );
 };

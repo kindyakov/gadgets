@@ -1,46 +1,29 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+// import 'react-dadata/dist/react-dadata.css';
+import { useState, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaMapMarkerAlt } from "react-icons/fa";
-import { AddressSuggestions } from 'react-dadata';
-
+// import { AddressSuggestions } from 'react-dadata';
 import Button from '../../ui/Button'
+import Placeholder from '../../ui/Placeholder';
+import { useDoorData, useUpdateDeliveryData } from '../../store/useDeliveryStore';
 
-const DeliveryDoor = ({ setDeliveryData, defaultValues }) => {
+const DeliveryDoor = ({ order }) => {
+  const deliveryDoorData = useDoorData();
+  const updateDeliveryData = useUpdateDeliveryData();
+  const defaultValues = useMemo(() => ({ ...order.delivery.data.door, ...deliveryDoorData }), [order, deliveryDoorData])
+
   const { register, handleSubmit, reset, watch, formState: { errors, isValid }
-  } = useForm({ mode: 'onChange' });
-  // const [address, setAddress] = useState();
+  } = useForm({ defaultValues: order.delivery.data.door, mode: 'onChange' });
 
-  const values = watch();
-  const fields = useMemo(() => ['city', 'street', 'house', 'entrance', 'floor', 'apartment', 'comment'], []);
+  // const [address, setAddress] = useState();
 
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues, reset]);
 
-  const saveValidFields = useCallback(() => {
-    let hasValidData = false;
-    const validData = {};
-
-    fields.forEach(field => {
-      if (values[field] !== undefined && !errors[field]) {
-        validData[field] = values[field];
-        hasValidData = true;
-      }
-    });
-
-    // Отправляем данные только если есть валидные поля
-    if (hasValidData) {
-      setDeliveryData(validData);
-    }
-  }, [values, errors, setDeliveryData, fields]);
-
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      saveValidFields();
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
-  }, [saveValidFields]);
+  const onSubmit = (data) => {
+    updateDeliveryData('door', data)
+  }
 
   const handleDetectLocation = () => {
     if (navigator.geolocation) {
@@ -52,28 +35,14 @@ const DeliveryDoor = ({ setDeliveryData, defaultValues }) => {
     } else {
       alert('Геолокация не поддерживается в вашем браузере');
     }
-  };
-
-  const hasValue = (name) => !!watch(name);
-
-  const placeholder = (id, text) => {
-    return (
-      <label
-        htmlFor={id}
-        className={`absolute transition-all text-gray-500 pointer-events-none text-[#9FA9B4] 
-            ${hasValue(id) || errors[id] ? '-top-4 text-xs left-0' : 'top-2 left-3'} peer-focus:-top-4 peer-focus:left-0 peer-focus:text-xs`
-        }
-      >
-        {text} {errors[id] ? <span className='text-red-light'>({errors[id].message})</span> : ''}
-      </label>
-    )
   }
 
+
   return (
-    <form className="mt-5 flex flex-col gap-y-5">
-      <button type="button" className="text-red-light absolute top-full left-1 select-none pointer-events-none hover:underline text-left" onClick={handleDetectLocation}>
+    <form className="mt-6 flex flex-col gap-y-5" onSubmit={handleSubmit(onSubmit)}>
+      {/* <button type="button" className="text-red-light select-none hover:underline text-left" onClick={handleDetectLocation}>
         Определить местоположение
-      </button>
+      </button> */}
       {/* <AddressSuggestions
         token="e0240461f302fd88ea32bbec29a79b27d8100ee7"
         value={address}
@@ -91,7 +60,7 @@ const DeliveryDoor = ({ setDeliveryData, defaultValues }) => {
             autoComplete='off'
             {...register('city', { required: 'обязателен' })}
           />
-          {placeholder('city', 'Город')}
+          <Placeholder id='city' watch={watch} errors={errors}>Город</Placeholder>
         </div>
 
         <Button type='button' className='py-[4px]'>
@@ -108,7 +77,7 @@ const DeliveryDoor = ({ setDeliveryData, defaultValues }) => {
           autoComplete='off'
           {...register('street', { required: 'обязательна' })}
         />
-        {placeholder('street', 'Улица')}
+        <Placeholder id='street' watch={watch} errors={errors}>Улица</Placeholder>
       </div>
 
       <div className="flex gap-3">
@@ -120,7 +89,7 @@ const DeliveryDoor = ({ setDeliveryData, defaultValues }) => {
             autoComplete='off'
             {...register('house', { required: 'обязателен' })}
           />
-          {placeholder('house', 'Дом')}
+          <Placeholder id='house' watch={watch} errors={errors}>Дом</Placeholder>
         </div>
         <div className="wp-input relative w-1/4">
           <input
@@ -131,7 +100,7 @@ const DeliveryDoor = ({ setDeliveryData, defaultValues }) => {
             inputMode='numeric'
             {...register('entrance', { pattern: { value: /^[0-9]+$/, message: 'только цифры' } })}
           />
-          {placeholder('entrance', 'Подъезд')}
+          <Placeholder id='entrance' watch={watch} errors={errors}>Подъезд</Placeholder>
         </div>
         <div className="wp-input relative w-1/4">
           <input
@@ -142,7 +111,7 @@ const DeliveryDoor = ({ setDeliveryData, defaultValues }) => {
             inputMode='numeric'
             {...register('floor', { pattern: { value: /^[0-9]+$/, message: 'только цифры' } })}
           />
-          {placeholder('floor', 'Этаж')}
+          <Placeholder id='floor' watch={watch} errors={errors}>Этаж</Placeholder>
         </div>
 
         <div className="wp-input relative w-1/4">
@@ -153,7 +122,7 @@ const DeliveryDoor = ({ setDeliveryData, defaultValues }) => {
             autoComplete='off'
             {...register('apartment', { pattern: { value: /^[0-9]+$/, message: 'Только цифры' } })}
           />
-          {placeholder('apartment', 'Квартира / офис')}
+          <Placeholder id='apartment' watch={watch} errors={errors}>Квартира / офис</Placeholder>
         </div>
       </div>
 
@@ -161,15 +130,15 @@ const DeliveryDoor = ({ setDeliveryData, defaultValues }) => {
         <textarea
           id='comment'
           type="text"
-          name="comment peer"
+          name="comment"
           className={`input peer resize-none min-h-24 ${errors.comment ? 'error' : ''}`}
           autoComplete='off'
           {...register('comment', { maxLength: { value: 200, message: 'Не более 200 символов' } })}
         ></textarea>
-        {placeholder('comment', 'Комментарий к доставке')}
+        <Placeholder id='comment' watch={watch} errors={errors}>Комментарий к доставке</Placeholder>
       </div>
 
-      <button>'asdasd</button>
+      <Button disabled={!isValid} className='ml-auto'>Перейти к выбору оплаты</Button>
     </form>
   )
 }
