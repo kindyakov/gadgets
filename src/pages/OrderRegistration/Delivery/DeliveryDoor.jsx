@@ -3,17 +3,16 @@ import { useState, useEffect, useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaMapMarkerAlt } from "react-icons/fa";
 // import { AddressSuggestions } from 'react-dadata';
-import Button from '../../ui/Button'
-import Placeholder from '../../ui/Placeholder';
-import { useDoorData, useUpdateDeliveryData } from '../../store/useDeliveryStore';
+import Button from '../../../ui/Button'
+import Placeholder from '../../../ui/Placeholder';
+import { useDeliveryStore } from '../../../store/useDeliveryStore';
 
-const DeliveryDoor = ({ order }) => {
-  const deliveryDoorData = useDoorData();
-  const updateDeliveryData = useUpdateDeliveryData();
-  const defaultValues = useMemo(() => ({ ...order.delivery.data.door, ...deliveryDoorData }), [order, deliveryDoorData])
+const DeliveryDoor = ({ order, onNextStep }) => {
+  const { data, updateData } = useDeliveryStore();
+  const defaultValues = useMemo(() => ({ ...order?.delivery?.data?.door, ...data.door }), [order, data])
 
   const { register, handleSubmit, reset, watch, formState: { errors, isValid }
-  } = useForm({ defaultValues: order.delivery.data.door, mode: 'onChange' });
+  } = useForm({ defaultValues: order?.delivery?.data?.door, mode: 'onChange' });
 
   // const [address, setAddress] = useState();
 
@@ -22,7 +21,8 @@ const DeliveryDoor = ({ order }) => {
   }, [defaultValues, reset]);
 
   const onSubmit = (data) => {
-    updateDeliveryData('door', data)
+    updateData('door', data)
+    onNextStep()
   }
 
   const handleDetectLocation = () => {

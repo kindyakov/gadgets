@@ -1,38 +1,50 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination } from 'swiper/modules';
-import Button from '../../ui/Button';
 
-import { declOfNum } from '../../utils/declOfNum';
-import { formatCurrency } from '../../utils/formatCurrency';
-import { handleErrorImg } from '../../utils/handleErrorImg';
+import { useCreatePayment } from '../../hooks/useCreatePayment';
 import { useOrder } from '../../hooks/useOrder';
 import { useUserStore } from '../../store/useUserStore'
 import { useDeliveryStore } from '../../store/useDeliveryStore';
 
-import FormContactInformation from './FormContactInformation';
-import Delivery from './Delivery';
 import Page from '../Page'
 import Loader from '../../components/Loader/Loader'
+import OrderContent from './OrderContent';
+import OrderAside from './OrderAside';
 
 const OrderRegistration = () => {
+  const { mutate: createPayment, isPending, } = useCreatePayment()
   const isAuth = useUserStore(state => state.isAuth)
-  const user = useUserStore(state => state.user)
-  const { data, type, client } = useDeliveryStore();
+  const { data, deliveryType, client, paymentType } = useDeliveryStore();
 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const orderId = searchParams.get('orderId')
   const { data: order, isLoading } = useOrder(orderId)
 
-  const handleClickPay = () => {
-    console.log({
+  const handleClickPay = useCallback(async () => {
+    // createPayment({
+    //   delivery: {
+    //     method: deliveryType,
+    //     data
+    //   },
+    //   client,
+    //   orderId,
+    //   payment_method_type: paymentType,
+    //   return_url: 'http://localhost:5173/account/orders',
+    // })
+
+    console.log(JSON.stringify({
       delivery: {
-        data, type, client
-      }
-    });
-  }
+        method: deliveryType,
+        data
+      },
+      client,
+      orderId,
+      payment_method_type: paymentType,
+      return_url: 'http://localhost:5173/account/orders',
+    }, null, 2));
+
+  }, [data, deliveryType, client])
 
   useEffect(() => {
     if (!isAuth) {
@@ -49,7 +61,7 @@ const OrderRegistration = () => {
   return (
     <Page isBreadcrumbs={false}>
 
-      <div className={`fixed w-full h-full inset-0 transition-opacity z-[5] bg-[rgba(0,0,0,0.15)] ${isLoading ? '' : 'opacity-0 invisible'}`}>
+      <div className={`fixed w-full h-full inset-0 transition-opacity z-[5] bg-[rgba(0,0,0,0.15)] ${isLoading || isPending ? '' : 'opacity-0 invisible'}`}>
         <Loader color='red' width={60} height={60} />
       </div>
 
@@ -60,58 +72,11 @@ const OrderRegistration = () => {
         >
           <span>Вернуться в корзину</span>
         </Link>
-        <h1 className='text-4xl font-bold mt-2'>Оформление заказа</h1>
+        <h1 className='text-4xl font-bold mt-2 text-center'>Оформление заказа</h1>
       </div>
       <div className="flex py-5 gap-3">
-        <div className="w-4/5">
-          <h3 className='text-2xl font-bold'>Контактные данные</h3>
-          <FormContactInformation user={user} />
-
-          <h3 className='text-2xl font-bold mt-5'>Доставка</h3>
-          {order && <Delivery order={order} />}
-
-          <h3 className='text-2xl font-bold mt-5'>Способ оплаты</h3>
-
-        </div>
-
-        <div className="w-2/6 p-4 rounded-xl bg-[#F2F5F9]">
-          <Button className='w-full py-4 font-bold' onClick={handleClickPay}>Оплатить онлайн</Button>
-          <div className="text-[#808d9a] text-sm mt-2">
-            Нажимая на кнопку, вы соглашаетесь с <a href="" className='text-red-light transition-colors hover:opacity-70'>Условиями обработки персональных данных</a> , а также с <a href="" className='text-red-light transition-colors hover:opacity-70'>Условиями продаж</a>
-          </div>
-          <div className="w-full h-[1px] bg-[#cacaca] my-4"></div>
-          <div className="w-full flex justify-between gap-2 items-center">
-            <h4 className='font-bold text-2xl'>Ваш заказ</h4>
-            <span className='text-[rgba(0,26,52,.6)] text-sm'>
-              {order?.countProduct} {declOfNum(order?.countProduct, ['товар', 'товара', 'товаров'])}
-            </span>
-          </div>
-          <Swiper
-            className="max-full mt-2"
-            modules={[Pagination]}
-            pagination={{ clickable: true }}
-            spaceBetween={10}
-            slidesPerView={3}
-          >
-            {order?.products?.map(({ id, title, images, quantity }) => (
-              <SwiperSlide key={id} style={{ display: 'flex' }} className="flex relative items-center justify-center p-2 min-h-36 rounded-lg border border-[#cacaca]">
-                <img src={images[0]} alt={title} className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform" onError={handleErrorImg} />
-                <span className='absolute bottom-1 text-xs bg-red-light w-5 h-5 flex items-center justify-center text-white rounded-full'>{quantity}</span>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-          <div className="w-full h-[1px] bg-[#cacaca] my-4"></div>
-
-          <div className="wp-input">
-            <input type="text" name='promoCode' placeholder='Промокод' className='input' />
-          </div>
-          <div className="w-full flex justify-between gap-2 mt-4">
-            <h4 className='font-bold text-2xl'>Итог</h4>
-            <span className='font-bold text-xl'>
-              {formatCurrency(order?.total)}
-            </span>
-          </div>
-        </div>
+        <OrderContent order={order} />
+        <OrderAside order={order} handleClickPay={handleClickPay} isCreatePayment={isPending} />
       </div>
     </Page>
   )

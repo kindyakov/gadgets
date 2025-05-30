@@ -1,11 +1,11 @@
 import DeliveryDoor from './DeliveryDoor';
 import DeliveryCdek from './DeliveryCdek';
 import DeliveryBoxberry from './DeliveryBoxberry'
-import { useDeliveryStore } from '../../store/useDeliveryStore';
+import { useDeliveryStore } from '../../../store/useDeliveryStore';
 
-const Delivery = ({ order, }) => {
-  const deliveryType = useDeliveryStore(state => state.type);
-  const setDeliveryType = useDeliveryStore(state => state.setType);
+const Delivery = ({ order, onNextStep }) => {
+  const deliveryType = useDeliveryStore(state => state.deliveryType);
+  const setDeliveryType = useDeliveryStore(state => state.setDeliveryType);
 
   const TabComponent = ({ type, text, }) => {
     return (
@@ -19,9 +19,9 @@ const Delivery = ({ order, }) => {
   }
 
   const delivers = {
-    door: (props) => <DeliveryDoor {...props} order={order} />,
-    cdek: (props) => <DeliveryCdek {...props} />,
-    boxberry: (props) => <DeliveryBoxberry {...props} />
+    door: DeliveryDoor,
+    cdek: DeliveryCdek,
+    boxberry: DeliveryBoxberry
   }
 
   const DeliveryComponent = delivers[deliveryType]
@@ -34,7 +34,7 @@ const Delivery = ({ order, }) => {
         <TabComponent text='Пункт выдачи (Boxberry)' type='boxberry' />
       </div>
 
-      <DeliveryComponent />
+      <DeliveryComponent onNextStep={onNextStep} order={order} />
     </>
   );
 };

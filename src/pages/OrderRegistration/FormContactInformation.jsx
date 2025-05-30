@@ -2,26 +2,30 @@ import { useMemo } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { IMaskInput } from "react-imask";
 import { useEffect } from "react";
+
 import Button from "../../ui/Button";
 import Placeholder from "../../ui/Placeholder";
 
-const FormContactInformation = ({ user }) => {
+import { useDeliveryStore } from "../../store/useDeliveryStore";
+
+const FormContactInformation = ({ onNextStep, order }) => {
   const formattedPhone = useMemo(() => {
-    if (!user.phone) return ''
-    const digits = user.phone.replace(/\D/g, '');
+    if (!order?.client?.phone) return ''
+    const digits = order?.client?.phone.replace(/\D/g, '');
     const match = digits.match(/^7?(\d{3})(\d{3})(\d{2})(\d{2})$/);
     if (!match) return '';
     const [, a, b, c, d] = match;
     return `+7 (${a}) ${b}-${c}-${d}`;
-  }, [user.phone]);
+  }, [order]);
 
   const defaultValues = useMemo(() => ({
-    name: user.name || '',
-    surname: user.surname || '',
+    name: order?.client?.name || '',
+    surname: order?.client?.surname || '',
     phone: formattedPhone
-  }), [user]);
+  }), [order]);
 
   const { control, register, handleSubmit, watch, reset, formState: { errors, isValid } } = useForm({ defaultValues });
+  const setClient = useDeliveryStore(state => state.setClient)
 
   useEffect(() => {
     if (defaultValues) {
@@ -30,11 +34,13 @@ const FormContactInformation = ({ user }) => {
   }, [defaultValues, reset]);
 
   const onSubmit = (data) => {
-    console.log(data);
+    data.phone = data.phone.replace(/\D/g, '')
+    setClient(data);
+    onNextStep()
   }
 
   return (
-    <form className='flex flex-col gap-4 mt-5' onSubmit={handleSubmit(onSubmit)}>
+    <form className={`flex flex-col gap-4 mt-5`} onSubmit={handleSubmit(onSubmit)}>
       <div className="grid gap-4 grid-cols-3">
         <div className="wp-input relative">
           <input id="name" type="text"
