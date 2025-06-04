@@ -6,11 +6,12 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import Button from '../../../ui/Button'
 import Placeholder from '../../../ui/Placeholder';
 import { useDeliveryStore } from '../../../store/useDeliveryStore';
+import { useModalStore } from '../../../store/useModalStore';
 
 const DeliveryDoor = ({ order, onNextStep }) => {
   const { data, updateData } = useDeliveryStore();
   const defaultValues = useMemo(() => ({ ...order?.delivery?.data?.door, ...data.door }), [order, data])
-
+  const openModal = useModalStore(state => state.openModal)
   const { register, handleSubmit, reset, watch, formState: { errors, isValid }
   } = useForm({ defaultValues: order?.delivery?.data?.door, mode: 'onChange' });
 
@@ -25,24 +26,8 @@ const DeliveryDoor = ({ order, onNextStep }) => {
     onNextStep()
   }
 
-  const handleDetectLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        const { latitude, longitude } = pos.coords;
-        console.log('Coordinates:', latitude, longitude);
-        // Здесь можно будет подгрузить адрес по координатам через API
-      });
-    } else {
-      alert('Геолокация не поддерживается в вашем браузере');
-    }
-  }
-
-
   return (
     <form className="mt-6 flex flex-col gap-y-5" onSubmit={handleSubmit(onSubmit)}>
-      {/* <button type="button" className="text-red-light select-none hover:underline text-left" onClick={handleDetectLocation}>
-        Определить местоположение
-      </button> */}
       {/* <AddressSuggestions
         token="e0240461f302fd88ea32bbec29a79b27d8100ee7"
         value={address}
@@ -63,7 +48,7 @@ const DeliveryDoor = ({ order, onNextStep }) => {
           <Placeholder id='city' watch={watch} errors={errors}>Город</Placeholder>
         </div>
 
-        <Button type='button' className='py-[4px]'>
+        <Button type='button' className='py-[4px]' onClick={() => openModal('modalMap')}>
           <FaMapMarkerAlt />
           <span>На карте</span>
         </Button>

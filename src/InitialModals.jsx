@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { useModalStore } from './store/useModalStore';
 import ModalAuth from './components/modals/ModalAuth/ModalAuth';
+import ModalMap from './components/modals/ModalMap/ModalMap';
 
 const InitialModals = () => {
   const { addModal, modals } = useModalStore();
 
   useEffect(() => {
     addModal('modalAuth', { isOpen: false });
+    addModal('modalMap', { isOpen: false });
   }, [addModal]);
 
   useEffect(() => {
@@ -26,6 +28,7 @@ const InitialModals = () => {
   return (
     <>
       <ModalAuth />
+      <ModalMap />
     </>
   );
 };

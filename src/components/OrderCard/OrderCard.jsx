@@ -7,17 +7,19 @@ import { handleErrorImg } from "../../utils/handleErrorImg"
 import Button from '../../ui/Button';
 
 const statusColors = {
-  pending: 'text-[#0177F2] bg-[#0177F2]/10 border-[#0177F2]',
-  paid: 'text-[#0179f5] bg-[#0179f5]/10 border-[#0179f5]',
-  canceled: 'text-black bg-gray/10 border-black',
-  completed: 'text-black bg-gray/10  border-[#000]',
+  pending: 'text-yellow-light bg-yellow-light/10 border-yellow-light',
+  paid: 'text-blue bg-blue/10 border-blue',
+  canceled: 'text-red-light bg-red-light/10 border-red-light',
+  completed: 'text-green-light bg-green-light/10  border-green-light',
+  delivered: 'text-blue bg-blue/10 border-blue'
 };
 
 const statusMessage = {
   pending: 'Ожидает подтверждения оплаты',
   paid: 'Оплачено, ожидает отправки',
-  completed: 'Заказ завершен',
+  completed: 'Заказ получен',
   canceled: 'Заказ отменен',
+  delivered: 'Заказ доставляется'
 };
 
 export default function OrderCard({ order }) {

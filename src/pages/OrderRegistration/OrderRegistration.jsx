@@ -22,28 +22,16 @@ const OrderRegistration = () => {
   const { data: order, isLoading } = useOrder(orderId)
 
   const handleClickPay = useCallback(async () => {
-    // createPayment({
-    //   delivery: {
-    //     method: deliveryType,
-    //     data
-    //   },
-    //   client,
-    //   orderId,
-    //   payment_method_type: paymentType,
-    //   return_url: 'http://localhost:5173/account/orders',
-    // })
-
-    console.log(JSON.stringify({
+    createPayment({
       delivery: {
         method: deliveryType,
         data
       },
       client,
       orderId,
-      payment_method_type: paymentType,
+      paymentType,
       return_url: 'http://localhost:5173/account/orders',
-    }, null, 2));
-
+    })
   }, [data, deliveryType, client])
 
   useEffect(() => {

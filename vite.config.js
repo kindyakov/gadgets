@@ -11,5 +11,8 @@ export default defineConfig({
         additionalData: `@use "./src/styles/settings/_variables.scss" as *;`,
       },
     },
-  }
+  },
+  server: {
+    allowedHosts: ['repressively-singular-batfish.cloudpub.ru'],
+  },
 })

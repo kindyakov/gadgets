@@ -111,7 +111,11 @@ const services = {
     const response = await api.post('/payment', data)
     await delay(1000)
     return response.data
-  }
+  },
+  getBoxberryPoints: async (params = {}) => {
+    const response = await api.get(`/delivery/boxberry`, { params })
+    return response.data
+  },
 }
 
 export default services
