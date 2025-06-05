@@ -28,6 +28,10 @@ export const useDeliveryStore = create((set, get) => ({
   },
   getAddress: () => {
     const data = get().getCurrentData();
+    if (data.address) {
+      return data.address
+    }
+
     const fieldsOrder = {
       city: { idx: 0, format: v => v },
       street: { idx: 1, format: v => `ул. ${v}` },

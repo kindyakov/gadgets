@@ -20,7 +20,7 @@ const OrderContent = ({ order }) => {
       {sections.map(({ id, title, subTitle, Component }) => (
         <div key={id} className={`p-3 rounded-lg ${step !== id ? 'bg-blue/10' : ''}`}>
           <div
-            className={`flex items-center justify-between gap-3 ${step >= id ? 'cursor-pointer' : 'opacity-70 pointer-events-none'}`}
+            className={`flex items-center justify-between gap-3 ${step >= id ? '' : 'opacity-70 pointer-events-none'}`}
           >
             <h3 className="text-2xl font-bold">{title}</h3>
             {subTitle && <p className="mr-auto mt-1 text-[#6d6d6d] text-xs text">"{subTitle}"</p>}

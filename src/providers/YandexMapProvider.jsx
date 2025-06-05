@@ -3,7 +3,7 @@ import * as ReactDOM from 'react-dom';
 import { YandexMapContext } from '../contexts/YandexMapContext';
 
 export const YandexMapProvider = ({ children }) => {
-  const [mapModules, setMapModules] = useState(null);
+  const [mapModules, setMapModules] = useState({});
 
   useEffect(() => {
     const init = async () => {

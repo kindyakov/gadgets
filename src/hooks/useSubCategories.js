@@ -6,7 +6,7 @@ export function useSubCategories(searchParams = {}, extraOptions = {}) {
   return useQuery({
     queryKey: ['subCategories', JSON.stringify(searchParams)],
     queryFn: () => services.getSubCategory(searchParams),
-    enabled: checkSearchParams(searchParams),
+    // enabled: checkSearchParams(searchParams),
     staleTime: 1000 * 60 * 5,
     ...extraOptions
   });

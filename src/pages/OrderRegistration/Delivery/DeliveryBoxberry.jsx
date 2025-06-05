@@ -63,7 +63,8 @@ const DeliveryBoxberry = ({ onNextStep }) => {
       city: point.CityName,
       country: point.Country,
       address: point.Address,
-      addressReduce: point.AddressReduce
+      addressReduce: point.AddressReduce,
+      coords: point.GPS,
     });
     onNextStep()
   }, [updateData, onNextStep])

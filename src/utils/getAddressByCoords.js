@@ -2,7 +2,7 @@ import axios from 'axios';
 
 export const getAddressByCoords = async (coords) => {
   try {
-    const [lat, lon] = coords;
+    const [lon, lat] = coords;
     const response = await axios.get('https://geocode-maps.yandex.ru/v1/', {
       params: {
         geocode: `${lon},${lat}`,
