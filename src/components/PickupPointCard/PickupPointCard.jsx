@@ -1,7 +1,9 @@
 import { useMemo } from 'react';
 import { IoCloseCircleOutline } from "react-icons/io5";
+import { useDeliveryStore } from '../../store/useDeliveryStore';
+import Button from '../../ui/Button';
 
-const PickupPointCard = ({ selectedPoint, setSelectedPoint }) => {
+const PickupPointCard = ({ selectedPoint, setSelectedPoint, onSelectPoint }) => {
   const now = new Date();
 
   const schedule = useMemo(() => {
@@ -28,6 +30,8 @@ const PickupPointCard = ({ selectedPoint, setSelectedPoint }) => {
   }, [selectedPoint.WorkShedule]);
 
   const [latitude, longitude] = selectedPoint.GPS.split(',')
+
+
 
   return (
     <div className="absolute left-2 top-2 p-4 w-2/6 bg-white rounded-2xl z-10 border-2 border-[#ED1651] shadow-xl flex flex-col gap-1">
@@ -73,13 +77,15 @@ const PickupPointCard = ({ selectedPoint, setSelectedPoint }) => {
         <span className="font-semibold">Ограничение по весу:</span> до {selectedPoint.LoadLimit} кг
       </p>
 
-      <details className="text-sm text-gray-700 mt-2">
+      <details className="text-sm text-gray-700">
         <summary className="cursor-pointer text-blue hover:underline">
           Как добраться
         </summary>
         <p className="mt-1 whitespace-pre-line">{selectedPoint.TripDescription}</p>
       </details>
-    </div >
+
+      <Button className='mt-2' disabled={!selectedPoint} onClick={() => onSelectPoint(selectedPoint)}>Выбрать</Button>
+    </div>
   );
 }
 

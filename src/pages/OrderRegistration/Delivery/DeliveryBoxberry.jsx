@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { FaMapMarkerAlt } from "react-icons/fa";
 import Button from '../../../ui/Button';
 import { useBoxberryPoints } from '../../../hooks/useBoxberryPoints';
@@ -7,7 +7,7 @@ import { handleDetectLocation } from '../../../utils/handleDetectLocation';
 import { useYandexMap } from '../../../contexts/YandexMapContext';
 import PickupPointCard from '../../../components/PickupPointCard/PickupPointCard';
 
-const DeliveryBoxberry = () => {
+const DeliveryBoxberry = ({ onNextStep }) => {
   const [center, setCenter] = useState([37.57, 55.75])
   const [zoom, setZoom] = useState(13)
   const [bounds, setBounds] = useState({});
@@ -16,7 +16,6 @@ const DeliveryBoxberry = () => {
   const { data } = useBoxberryPoints(bounds);
   const updateData = useDeliveryStore(state => state.updateData);
   const mapRef = useRef(null);
-
   const { YMap, YMapDefaultSchemeLayer, YMapListener, YMapDefaultFeaturesLayer, YMapMarker } = useYandexMap()
 
   const updateMapBounds = (e) => {
@@ -48,23 +47,26 @@ const DeliveryBoxberry = () => {
     }
   };
 
-  const selectPoint = (pointCode) => {
+  const handleClickPoint = (pointCode) => {
     const point = points.find(p => p.Code === pointCode);
     if (point) {
       setSelectedPoint(point);
       setCenter(point.GPS.split(',').reverse())
       setZoom(15)
-
-      // updateData({
-      //   code: point.Code,
-      //   cityCode: point.cityCode,
-      //   city: point.CityName,
-      //   country: point.Country,
-      //   address: point.Address,
-      //   addressReduce: point.AddressReduce
-      // });
     }
   };
+
+  const onSelectPoint = useCallback((point) => {
+    updateData('boxberry', {
+      code: point.Code,
+      cityCode: point.cityCode,
+      city: point.CityName,
+      country: point.Country,
+      address: point.Address,
+      addressReduce: point.AddressReduce
+    });
+    onNextStep()
+  }, [updateData, onNextStep])
 
   const markers = useMemo(() => points.map((point) => {
     const coords = point.GPS.split(',').reverse()
@@ -73,13 +75,12 @@ const DeliveryBoxberry = () => {
         key={point.Code}
         coordinates={coords}
       >
-        <div className={`w-5 h-5 bg-white -translate-x-2/4 -translate-y-2/4 rounded-full cursor-pointer flex items-center justify-center text-center outline outline-2 outline-white transition-all hover:outline-[#ED1651] ${selectedPoint?.Code === point.Code ? 'scale-110 outline-[#ED1651]' : ''}`}
-          onClick={() => selectPoint(point.Code)}>
+        <div className={`w-5 h-5 bg-white -translate-x-2/4 -translate-y-2/4 rounded-full cursor-pointer flex items-center justify-center text-center outline outline-2  transition-all hover:outline-[#ED1651] ${selectedPoint?.Code === point.Code ? 'scale-110 outline-[#ED1651]' : 'outline-white'}`}
+          onClick={() => handleClickPoint(point.Code)}>
           <div className="bg-[#ED1651] w-4 h-4 rounded-full"></div>
         </div>
       </YMapMarker>
     )
-
   }), [points, selectedPoint]);
 
   useEffect(() => {
@@ -91,7 +92,7 @@ const DeliveryBoxberry = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       updateMapBounds();
-    }, 500); // Даем время карте загрузиться
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
@@ -107,7 +108,7 @@ const DeliveryBoxberry = () => {
       </div>
 
       <div className="relative">
-        {!!selectedPoint && <PickupPointCard selectedPoint={selectedPoint} setSelectedPoint={setSelectedPoint} />}
+        {!!selectedPoint && <PickupPointCard selectedPoint={selectedPoint} setSelectedPoint={setSelectedPoint} onSelectPoint={onSelectPoint} />}
 
         <YMap
           className="w-full h-[550px]"

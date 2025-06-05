@@ -14,7 +14,7 @@ import OrderAside from './OrderAside';
 const OrderRegistration = () => {
   const { mutate: createPayment, isPending, } = useCreatePayment()
   const isAuth = useUserStore(state => state.isAuth)
-  const { data, deliveryType, client, paymentType } = useDeliveryStore();
+  const { data, deliveryType, client, paymentType, setDeliveryType } = useDeliveryStore();
 
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
@@ -43,6 +43,10 @@ const OrderRegistration = () => {
     if (!orderId) {
       navigate('/account/basket')
       return
+    }
+
+    if (order && order?.delivery?.method) {
+      setDeliveryType(order.delivery.method)
     }
   }, [isAuth, orderId, order]);
 
