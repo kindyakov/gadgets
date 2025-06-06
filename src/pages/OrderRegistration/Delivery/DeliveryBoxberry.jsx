@@ -108,7 +108,7 @@ const DeliveryBoxberry = ({ onNextStep }) => {
         </Button>
       </div>
 
-      <div className="relative">
+      <div className="relative bg-gray/10">
         {!!selectedPoint && <PickupPointCard selectedPoint={selectedPoint} setSelectedPoint={setSelectedPoint} onSelectPoint={onSelectPoint} />}
 
         <YMap

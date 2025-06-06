@@ -113,7 +113,11 @@ const services = {
     return response.data
   },
   getBoxberryPoints: async (params = {}) => {
-    const response = await api.get(`/delivery/boxberry`, { params })
+    const response = await api.get(`/delivery/boxberry/list-points`, { params })
+    return response.data
+  },
+  getBoxberryPoint: async (params = {}) => {
+    const response = await api.get(`/delivery/boxberry/point`, { params })
     return response.data
   },
 }

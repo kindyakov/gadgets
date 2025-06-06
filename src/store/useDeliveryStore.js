@@ -28,6 +28,7 @@ export const useDeliveryStore = create((set, get) => ({
   },
   getAddress: () => {
     const data = get().getCurrentData();
+
     if (data.address) {
       return data.address
     }

@@ -13,7 +13,7 @@ const OrderContent = ({ order }) => {
     { id: 1, title: 'Контактные данные', subTitle: `${client.name} ${client.surname} ${client.phone}`, Component: FormContactInformation },
     { id: 2, title: 'Доставка', subTitle: getAddress(), Component: Delivery },
     { id: 3, title: 'Оплата', Component: Payment },
-  ];
+  ]
 
   return (
     <div className="w-4/6 flex flex-col gap-5">
