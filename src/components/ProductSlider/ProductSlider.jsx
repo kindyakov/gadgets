@@ -32,7 +32,9 @@ const ProductSlider = ({ product }) => {
         controller={{ control: thumbsSwiper }}
       >
         {product.images.map((image) => (
-          <SwiperSlide key={image} className="flex items-center justify-center">
+          <SwiperSlide key={image} className="flex items-center justify-center"
+            style={{ display: 'flex' }}
+          >
             <img src={image} alt={product.title} className="max-h-full max-w-full object-contain" onError={handleErrorImg} />
           </SwiperSlide>
         ))}
@@ -52,7 +54,9 @@ const ProductSlider = ({ product }) => {
       >
         {product.images.map(image => (
           <SwiperSlide key={image}
-            className="flex items-center justify-center p-3 border rounded-xl cursor-pointer group min-h-20">
+            className="flex items-center justify-center p-3 border rounded-xl cursor-pointer group min-h-20 max-h-[220px]"
+            style={{ display: 'flex' }}
+          >
             <img src={image} alt={product.title}
               className="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform"
               onError={handleErrorImg} />

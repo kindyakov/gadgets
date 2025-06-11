@@ -6,8 +6,10 @@ import { declOfNum } from '../../utils/declOfNum';
 import { formatCurrency } from '../../utils/formatCurrency';
 import { handleErrorImg } from '../../utils/handleErrorImg';
 import { useOrderFlowStore } from '../../store/useOrderFlowStore';
+// import { useDeliveryStore } from '../../store/useDeliveryStore';
 
 const OrderAside = ({ order, handleClickPay, isCreatePayment }) => {
+  // const d = useDeliveryStore()
   const { step } = useOrderFlowStore()
 
   return (

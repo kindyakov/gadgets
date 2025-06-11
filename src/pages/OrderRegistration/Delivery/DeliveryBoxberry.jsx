@@ -101,8 +101,9 @@ const DeliveryBoxberry = ({ onNextStep }) => {
   return (
     <div className="mt-4 flex flex-col gap-2">
       <div className="flex justify-between gap-3">
-
-        <Button className='ml-auto' onClick={handleClickLocation}>
+        <Button className='ml-auto' onClick={handleClickLocation}
+          style={{ padding: '2px 8px' }}
+        >
           <FaMapMarkerAlt />
           <span>Определить мое местоположение</span>
         </Button>

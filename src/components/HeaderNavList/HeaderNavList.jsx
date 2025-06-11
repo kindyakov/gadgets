@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { TriangleSvg } from "../../ui/svg/TriangleSvg";
 
-const NavList = ({ title, items, activeId = null, onMouseEnter, baseUrl, isSvg = true }) => {
+const HeaderNavList = ({ title, items, activeId = null, onMouseEnter, baseUrl, isSvg = true }) => {
   return (
     <nav className="header__catalog_nav flex flex-col gap-4">
       <h3 className="header__catalog_title font-bold text-2xl">{title}</h3>
@@ -21,6 +21,6 @@ const NavList = ({ title, items, activeId = null, onMouseEnter, baseUrl, isSvg =
       </ul>
     </nav>
   );
-};
+}
 
-export default NavList;
+export default HeaderNavList

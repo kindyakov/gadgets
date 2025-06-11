@@ -3,7 +3,7 @@ import { useCategories } from "../../hooks/useCategories";
 import { useSubCategories } from "../../hooks/useSubCategories";
 import { useProducts } from "../../hooks/useProducts";
 import { useBreadcrumbStore } from "../../store/useBreadcrumbStore.js";
-import NavList from "./NavList";
+import NavList from "../HeaderNavList/HeaderNavList";
 
 const HeaderCatalog = ({ isCatalogOpen, setIsCatalogOpen, headerHeight }) => {
   const [category, setCategory] = useState({})

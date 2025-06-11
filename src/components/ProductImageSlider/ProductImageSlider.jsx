@@ -15,7 +15,11 @@ const ProductImageSlider = ({ product, path }) => {
         slidesPerView={1}
       >
         {product.images.length && product.images.map(img => (
-          <SwiperSlide key={img} className="my-auto flex items-center justify-center p-2">
+          <SwiperSlide
+            key={img}
+            className="my-auto flex items-center justify-center p-2 max-h-[210px]"
+            style={{ display: 'flex' }}
+          >
             <img
               src={img}
               alt={product.title}

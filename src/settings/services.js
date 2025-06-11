@@ -13,22 +13,22 @@ function delay(ms) {
 const services = {
   // get Категории
   getCategories: async (params = {}) => {
-    const response = await api.get(`/categories/${searchParamsString(params)}`)
+    const response = await api.get(`/categories`, { params })
     return response.data
   },
   // get Подкатегории
   getSubCategory: async (params = {}) => {
-    const response = await api.get(`/subcategories/${searchParamsString(params)}`)
+    const response = await api.get(`/subcategories`, { params })
     return response.data
   },
   // get Продукты
   getProducts: async (params = {}) => {
-    const response = await api.get(`/products/${searchParamsString(params)}`)
+    const response = await api.get(`/products`, { params })
     return response.data
   },
   // get Обзоры
   getReviews: async (params = {}) => {
-    const response = await api.get(`/reviews/${searchParamsString(params)}`)
+    const response = await api.get(`/reviews`, { params })
     return response.data
   },
   // get Отфильтрованные продукты
@@ -39,12 +39,12 @@ const services = {
   },
   // get Бренды
   getBrands: async (params = {}) => {
-    const response = await api.get(`/brands/${searchParamsString(params)}`)
+    const response = await api.get(`/brands`, { params })
     return response.data
   },
   // get Отзывы
   getFeedbacks: async (params = {}) => {
-    const response = await api.get(`/feedbacks/${searchParamsString(params)}`)
+    const response = await api.get(`/feedbacks`, { params })
     await delay(1000)
     return response.data
   },
