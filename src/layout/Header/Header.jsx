@@ -12,14 +12,12 @@ import { TriangleSvg } from '../../ui/svg/TriangleSvg'
 import HeaderIcons from '../../components/HeaderIcons/HeaderIcons.jsx';
 import HeaderNavMobile from '../../components/HeaderNavMobile/HeaderNavMobile.jsx';
 
+import { useHeaderStore } from '../../store/useHeaderStore.js';
 
 const Header = () => {
-  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const { isCatalogOpen, isSearchOpen, setIsCatalogOpen, setIsSearchOpen, setHeaderHeight } = useHeaderStore()
   const headerRef = useRef(null);
-  const [headerHeight, setHeaderHeight] = useState(0);
   const location = useLocation();
-
 
   useEffect(() => {
     if (headerRef.current) {
@@ -29,6 +27,7 @@ const Header = () => {
 
   useEffect(() => {
     setIsCatalogOpen(false)
+    setIsSearchOpen(false)
   }, [location])
 
   return (
@@ -44,29 +43,30 @@ const Header = () => {
               <p className='header__logo-text'>Лучшие цены<br />в интернет-магазинах </p>
             </div>
             <div className='flex flex-auto'>
-              <Link to='/catalog' className={`header__button-catalog hidden sm:flex ${isCatalogOpen ? '_active' : ''}`}
-                onMouseEnter={() => setIsCatalogOpen(true)}>
+              <button className={`header__button-catalog hidden sm:flex ${isCatalogOpen ? '_active' : ''}`}
+                onMouseEnter={() => {
+                  setIsCatalogOpen(true)
+                  setIsSearchOpen(false)
+                }}
+                onClick={() => {
+                  setIsCatalogOpen(!isCatalogOpen)
+                  setIsSearchOpen(false)
+                }}>
                 <span className='hidden md:inline'>Каталог товаров</span>
                 <TriangleSvg />
-              </Link>
+              </button>
               <HeaderFormSearch />
             </div>
             <HeaderIcons />
           </div>
         </div>
       </header>
-      <HeaderCatalog
-        isCatalogOpen={isCatalogOpen}
-        setIsCatalogOpen={setIsCatalogOpen}
-        headerHeight={headerHeight}
-      />
-      <HeaderSearch
-        isSearchOpen={isSearchOpen}
-        setIsSearchOpen={setIsSearchOpen}
-        headerHeight={headerHeight}
-      />
-      <div className={`overlay ${isCatalogOpen || isSearchOpen ? '_active' : ''}`}></div>
+
+      <HeaderCatalog />
+      <HeaderSearch />
       <HeaderNavMobile />
+
+      <div className={`overlay ${isCatalogOpen || isSearchOpen ? '_active' : ''}`}></div>
     </>
   )
 }

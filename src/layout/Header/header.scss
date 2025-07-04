@@ -68,8 +68,7 @@
       @include svg-color(#fff);
     }
 
-    &._active,
-    &:hover {
+    &._active {
       svg {
         transform: rotate(-180deg);
       }

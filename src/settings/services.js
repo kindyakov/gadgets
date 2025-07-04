@@ -120,6 +120,10 @@ const services = {
     const response = await api.get(`/delivery/boxberry/point`, { params })
     return response.data
   },
+  search: async (params = {}) => {
+    const response = await api.get('/search', { params })
+    return response.data
+  }
 }
 
 export default services

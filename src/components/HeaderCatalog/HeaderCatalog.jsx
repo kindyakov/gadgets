@@ -4,8 +4,10 @@ import { useSubCategories } from "../../hooks/useSubCategories";
 import { useProducts } from "../../hooks/useProducts";
 import { useBreadcrumbStore } from "../../store/useBreadcrumbStore.js";
 import NavList from "../HeaderNavList/HeaderNavList";
+import { useHeaderStore } from "../../store/useHeaderStore.js";
 
-const HeaderCatalog = ({ isCatalogOpen, setIsCatalogOpen, headerHeight }) => {
+const HeaderCatalog = () => {
+  const { isCatalogOpen, setIsCatalogOpen, headerHeight } = useHeaderStore()
   const [category, setCategory] = useState({})
   const [subCategory, setSubCategory] = useState({})
   const { breadcrumbNames, setBreadcrumbName, updateBreadcrumbs } = useBreadcrumbStore()
@@ -35,7 +37,8 @@ const HeaderCatalog = ({ isCatalogOpen, setIsCatalogOpen, headerHeight }) => {
 
   return (
     <>
-      <div className={`header__catalog absolute z-10 left-0 right-0 w-ful bg-[#fdfdfd] ${isCatalogOpen ? '_open' : ''}`}
+      <div
+        className={`header__catalog absolute z-10 left-0 right-0 w-ful bg-[#fdfdfd] ${isCatalogOpen ? '_open' : ''}`}
         onMouseLeave={() => setIsCatalogOpen(false)}
         style={{ top: `${headerHeight + 1}px` }}
       >
